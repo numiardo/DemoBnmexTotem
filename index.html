@@ -1073,10 +1073,13 @@
       let ultimoDetalleExtraFields = DETALLE_EXTRA_FIELDS_DEFAULT;
 
       function buildExtraFields(detalle) {
+        const CAMPOS_EXCLUIDOS = ['Tipo de atención sugerida', 'Tipo de atencion sugerida'];
+
         const fields = { showable: [{ in: 'workstation', format: 'both' }] };
 
         if (!detalle || typeof detalle !== 'string') {
           fields['Detalle'] = detalle || '';
+          fields['Documentación'] = "<a href='https://drive.google.com/file/d/1m67Y3uzIx-U_BRprhYCn5RV_Is2IQP6s/view?usp=sharing' target='_blank' rel='noopener noreferrer'>Ver ID</a>";
           return [fields];
         }
 
@@ -1085,17 +1088,15 @@
         }
 
         // Formato 1: secciones marcadas con - **Header**: valor
-        // Dividimos por el patrón " - **" que precede a cada encabezado
         const partes = detalle.split(/\s*-\s*\*\*/);
         let encontrado = false;
 
         for (let i = 1; i < partes.length; i++) {
-          // Cada parte luce como: "NombreCampo**: contenido del valor"
           const sepIdx = partes[i].indexOf('**:');
           if (sepIdx !== -1) {
             const clave = partes[i].substring(0, sepIdx).trim();
             const valor = limpiarMd(partes[i].substring(sepIdx + 3));
-            if (clave && valor) {
+            if (clave && valor && !CAMPOS_EXCLUIDOS.includes(clave)) {
               fields[clave] = valor;
               encontrado = true;
             }
@@ -1110,7 +1111,7 @@
             if (colonIdx !== -1) {
               const clave = partesPlanas[i].substring(0, colonIdx).trim();
               const valor = limpiarMd(partesPlanas[i].substring(colonIdx + 1));
-              if (clave && valor) {
+              if (clave && valor && !CAMPOS_EXCLUIDOS.includes(clave)) {
                 fields[clave] = valor;
                 encontrado = true;
               }
@@ -1122,6 +1123,9 @@
         if (!encontrado) {
           fields['Detalle'] = limpiarMd(detalle);
         }
+
+        // Campo fijo de documentación al final
+        fields['Documentación'] = "<a href='https://drive.google.com/file/d/1m67Y3uzIx-U_BRprhYCn5RV_Is2IQP6s/view?usp=sharing' target='_blank' rel='noopener noreferrer'>Ver ID</a>";
 
         return [fields];
       }
