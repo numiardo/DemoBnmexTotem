@@ -1310,29 +1310,6 @@
           <div class="turno-numero-valor" id="turnoNumeroValor">—</div>
         </div>
 
-        <!-- Oferta WhatsApp + QR (presencial directo: solicitud de crédito / seguros) -->
-        <div class="wa-oferta-container" id="waOfertaContainer">
-          <div class="wa-alerta-demanda">
-            <i class="bi bi-exclamation-triangle-fill"></i>
-            <div class="wa-alerta-demanda-texto">
-              <strong>Tiempo de atención elevado</strong>
-              ¿Quieres adelantar tu trámite? Puedes enviar tu información anticipadamente por WhatsApp y la tendremos lista cuando te atiendan.
-            </div>
-          </div>
-          <div class="wa-oferta-card">
-            <div class="wa-oferta-info">
-              <div class="wa-oferta-titulo">Continúa tu trámite por WhatsApp</div>
-              <div class="wa-oferta-desc">Toca el botón o escanea el código QR para iniciar tu solicitud ahora con un asesor Banamex.</div>
-              <a href="https://wa.me/50432165124" target="_blank" rel="noopener noreferrer" class="btn-wa-pedido">
-                <i class="bi bi-whatsapp"></i> Abrir WhatsApp
-              </a>
-            </div>
-          </div>
-          <div class="wa-qr-section">
-            <div class="wa-qr-label">Escanea para abrir WhatsApp</div>
-            <img src="images/QR_pedido.png" alt="QR WhatsApp Banamex" />
-          </div>
-        </div>
       </div>
       
       <!-- Expediente desactualizado (intercepta respuesta Journey â€” no asigna turno) -->
@@ -2193,7 +2170,7 @@
         cardInversiones.style.cssText = 'cursor: pointer; border-color: #003B5C; background: linear-gradient(135deg, #eef5fb 0%, #cce0ee 100%);';
         cardInversiones.innerHTML = `
           <div class="opcion-icon" style="color: #003B5C;">
-            <i class="bi bi-shield-check-fill"></i>
+            <i class="bi bi-umbrella-fill"></i>
           </div>
           <div class="opcion-title opcion-title--multiline">Seguros Banamex</div>
         `;
@@ -2238,7 +2215,7 @@
               </div>
               <div class="opcion-card" style="cursor: pointer; border-color: #003B5C; background: linear-gradient(135deg, #eef5fb 0%, #cce0ee 100%);" data-opcion="inversiones">
                 <div class="opcion-icon" style="color: #003B5C;">
-                  <i class="bi bi-shield-check-fill"></i>
+                  <i class="bi bi-umbrella-fill"></i>
                 </div>
                 <div class="opcion-title opcion-title--multiline">Seguros Banamex</div>
               </div>
@@ -2352,14 +2329,6 @@
             });
           }
           
-          // Trámites de presencial directo (Comprar medicamentos / Ortopedia): omitir elección de canal
-          if (opcionTramiteJourney === 'prestamos' || opcionTramiteJourney === 'inversiones') {
-            if (messageText) mostrarResumen(messageText);
-            const delayPresencial = contents.length > 0 ? contents.length * 800 + 500 : 400;
-            setTimeout(() => { solicitarAtencionPresencialDirecta(); }, delayPresencial);
-            return;
-          }
-
           // ID/CURP 240696: siempre ofrecer videollamada y presencial (el encolar usa mismo JSON enriquecido que el resto)
           if (esDniDemoDobleCanal240696()) {
             if (messageText) {
@@ -2421,18 +2390,12 @@
                 recomendacionVideollamada = tieneVideollamada;
                 console.log('Scoring extraído:', scoring, 'Dice NO/Presencial:', diceNoOPresencial, 'Videollamada por texto:', tieneVideollamadaTexto, 'Videollamada recomendada:', tieneVideollamada);
                 console.log('Texto completo para debugging:', messageText.substring(0, 500));
-                // Mostrar opciones de videollamada/presencial después del análisis o confirmación directa
+                // Mostrar opciones de videollamada/presencial después del análisis
                 setTimeout(() => {
                   if (esSucursalDniDobleAtencionEspecial()) {
                     recomendacionVideollamada = true;
-                    mostrarOpcionesAtencion();
-                    return;
                   }
-                  if (tieneVideollamada) {
-                    mostrarOpcionesAtencion();
-                  } else {
-                    solicitarAtencionPresencialDirecta();
-                  }
+                  mostrarOpcionesAtencion();
                 }, 1000);
               }, contents.length * 800 + 500);
             }
@@ -2466,18 +2429,12 @@
                 const tieneVideollamada = tieneVideollamadaTexto || (scoring !== null && scoring > 640);
                 recomendacionVideollamada = tieneVideollamada;
                 console.log('Scoring extraído:', scoring, 'Videollamada recomendada:', tieneVideollamada);
-                // Mostrar opciones de videollamada/presencial después del análisis o confirmación directa
+                // Mostrar opciones de videollamada/presencial después del análisis
                 setTimeout(() => {
                   if (esSucursalDniDobleAtencionEspecial()) {
                     recomendacionVideollamada = true;
-                    mostrarOpcionesAtencion();
-                    return;
                   }
-                  if (tieneVideollamada) {
-                    mostrarOpcionesAtencion();
-                  } else {
-                    solicitarAtencionPresencialDirecta();
-                  }
+                  mostrarOpcionesAtencion();
                 }, 1000);
               }
             }
@@ -2602,13 +2559,10 @@
         if (screenExpedientePendiente) screenExpedientePendiente.classList.remove('active');
         screenConfirmacion.classList.add('active');
 
-        const esPresencialDirecto = (opcionTramiteJourney === 'prestamos' || opcionTramiteJourney === 'inversiones');
-
         // Ocultar todos los bloques opcionales por defecto
         document.getElementById('tiempoEspera').style.display = 'none';
         document.getElementById('videoLinkContainer').style.display = 'none';
         document.getElementById('turnoNumeroBadge').classList.remove('visible');
-        document.getElementById('waOfertaContainer').classList.remove('visible');
 
         // Función auxiliar: extrae un campo buscando en obj, obj.data y obj.jsonDetails
         function extraerCampo(obj, ...keys) {
@@ -2634,41 +2588,7 @@
 
         console.log('Turno extraído:', rawTurnCode, '| Tiempo espera extraído (min):', rawWaitTime);
 
-        if (esPresencialDirecto) {
-          // Título y mensaje adaptados
-          const confirmacionTitle = screenConfirmacion.querySelector('h2');
-          const confirmacionMessage = screenConfirmacion.querySelector('.message');
-          if (confirmacionTitle) confirmacionTitle.textContent = '¡Tu turno fue asignado!';
-          if (confirmacionMessage) {
-            const tramiteNombre = opcionTramiteJourney === 'prestamos' ? 'Solicitud de crédito' : 'Seguros Banamex';
-            confirmacionMessage.innerHTML = `
-              <strong>${formNombre} ${formApellido}</strong> — ${tramiteNombre}<br>
-              Espera a que te llamen en caja.
-            `;
-          }
-
-          // Número de turno
-          if (rawTurnCode) {
-            document.getElementById('turnoNumeroValor').textContent = rawTurnCode;
-            document.getElementById('turnoNumeroBadge').classList.add('visible');
-          }
-
-          // Tiempo de espera (rawWaitTime viene en minutos decimales, ej: 4.61)
-          if (rawWaitTime !== undefined) {
-            const totalMin = parseFloat(rawWaitTime);
-            const minutos = Math.floor(totalMin);
-            const segundos = Math.round((totalMin - minutos) * 60);
-            document.getElementById('tiempoEspera').style.display = 'block';
-            document.getElementById('tiempoEsperaValor').textContent =
-              minutos > 0 ? `${minutos} min ${segundos} seg` : `${segundos} seg`;
-          }
-
-          // Oferta WhatsApp + QR siempre visible para estos trámites
-          document.getElementById('waOfertaContainer').classList.add('visible');
-          return;
-        }
-
-        // Flujo estándar (préstamo personal / videollamada) — tiempo también en minutos
+        // Tiempo de espera (rawWaitTime viene en minutos decimales, ej: 4.61)
         if (rawWaitTime !== undefined) {
           const totalMin = parseFloat(rawWaitTime);
           const minutos = Math.floor(totalMin);
@@ -2798,8 +2718,7 @@
 
       function mostrarResumen(message) {
         try {
-          const resumenFarmacia = generarResumenFarmacia(message);
-          summaryContent.textContent = resumenFarmacia;
+          summaryContent.textContent = message || '';
           summarySection.style.display = 'block';
         } catch (err) {
           console.error('Error al mostrar resumen:', err);
