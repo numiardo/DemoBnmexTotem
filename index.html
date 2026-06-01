@@ -1,48 +1,23 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Banamex</title>
-  <link rel="icon" type="image/png" href="images/Banamex-Logo.png" />
+  <title>Numia Bank - Mi Banca</title>
+  <link rel="icon" type="image/png" href="images/N.png" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@400;600;700&display=swap" rel="stylesheet"/>
-  <script>
-    window.APP_CONFIG_CITAS = {
-      API_TOKEN: '64xvLtdxbdDHTzq8fOxCR6T776PRrtjaXTCMkynN',
-      SVC_LIST: 'https://citas2.debmedia.com/api/v2/reducedSchedules',
-      AVAIL_BASE: 'https://citas2.debmedia.com/api/v2/schedules',
-      APPT_URL: 'https://citas2.debmedia.com/api/v2/appointments'
-    };
-  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet"/>
   <style>
     :root {
-      /* Paleta Banamex */
-      --siman-azul:          #003B5C;
-      --siman-azul-hover:    #002A42;
-      --siman-azul-pressed:  #001F30;
-      --siman-rojo:          #C8102E;
-      --siman-rojo-hover:    #a50d25;
-
-      --falabella-verde:        #003B5C;
-      --falabella-verde-hover:  #002A42;
-      --falabella-verde-pressed:#001F30;
-      --falabella-rosa:         #C8102E;
-      --inbursa-azul:           #003B5C;
-      --inbursa-azul-hover:     #002A42;
-      --inbursa-azul-pressed:   #001F30;
-      --aban-burgundy:          #003B5C;
-      --aban-red:               #C8102E;
-      --numia-azul:             #003B5C;
-      --numia-azul-oscuro:      #001F30;
-      --numia-azul-claro:       #cce0ee;
-      --numia-azul-muy-claro:   #eef5fb;
-      --numia-success:          #003B5C;
-      --numia-text:             #1a2b38;
-      --numia-text-light:       #4a6278;
-      --numia-border:           #a8c8dd;
-      --numia-bg:               #e8f0f5;
+      --numia-azul: #007A3D;
+      --numia-azul-claro: #e0f0e8;
+      --numia-azul-muy-claro: #f0faf4;
+      --numia-success: #005c2b;
+      --numia-text: #1f2937;
+      --numia-text-light: #6b7280;
+      --numia-border: #e5e7eb;
+      --numia-bg: #f5f5f5;
     }
     
     * {
@@ -52,7 +27,7 @@
     }
     
     body {
-      font-family: 'Lato', system-ui, sans-serif;
+      font-family: 'Roboto', Arial, sans-serif;
       background: var(--numia-bg);
       color: var(--numia-text);
       min-height: 100vh;
@@ -64,13 +39,13 @@
       margin: 0;
     }
     
-    /* Contenedor del tótem (solo panel cliente â€” Banca Inbursa) */
-    .totem-container {
-      max-width: 600px;
+    /* Contenedor tipo app móvil */
+    .mobile-app-container {
+      max-width: 414px;
       width: 100%;
-      background: #ffffff;
+      background: #f5f5f5;
       border-radius: 24px;
-      box-shadow: 0 12px 40px rgba(0, 48, 135, 0.12);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
       overflow: hidden;
       position: relative;
       height: calc(100vh - 4rem);
@@ -78,912 +53,54 @@
       flex-direction: column;
       flex-shrink: 0;
     }
-
-    /* Barra superior azul estilo Farmacia Simán */
-    .totem-topbar {
-      background: var(--siman-azul);
-      color: #ffffff;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.4rem 1.5rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 2rem;
-      flex-shrink: 0;
-      letter-spacing: 0.01em;
-    }
-
-    .totem-topbar a,
-    .totem-topbar span {
-      color: #ffffff;
-      text-decoration: none;
-      opacity: 0.95;
-    }
-
-    .totem-topbar .topbar-highlight {
-      color: #ffd700;
-      font-weight: 700;
-    }
     
-    .totem-header {
-      background: #ffffff;
-      padding: 0.85rem 1.5rem;
-      border-bottom: 3px solid var(--siman-azul);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      flex-shrink: 0;
-      box-shadow: 0 2px 8px rgba(0, 48, 135, 0.08);
-    }
-    
-    .totem-header .totem-brand-logo {
-      height: 48px;
-      max-width: 240px;
-      width: auto;
-      object-fit: contain;
-      object-position: left center;
-    }
-    
-    .totem-nav {
-      display: flex;
-      align-items: center;
-      gap: 1.25rem;
-      flex-shrink: 0;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--siman-azul);
-    }
-    
-    .totem-nav-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      cursor: default;
-      user-select: none;
-      opacity: 0.92;
-    }
-    
-    .totem-nav-link .bi-chevron-down {
-      font-size: 0.65rem;
-      opacity: 0.85;
-    }
-    
-    .totem-logo {
-      width: 40px;
-      height: 40px;
-      background: rgba(255, 255, 255, 0.12);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      color: #ffffff;
-      font-size: 1.2rem;
-    }
-    
-    .totem-content {
-      flex: 1;
-      overflow-x: hidden;
-      overflow-y: auto;
-      padding: 1.5rem 2rem;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      align-items: center;
-      min-height: 0;
-    }
-    
-    /* Pantalla 0: Elección inicial (sucursal / generar cita) */
-    .screen-eleccion-inicial {
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-    }
-    
-    .screen-eleccion-inicial .hero-badge {
-      display: inline-block;
-      background: var(--falabella-rosa);
-      color: #ffffff;
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.4rem 0.9rem;
-      border-radius: 9999px;
-      margin-bottom: 1rem;
-      letter-spacing: 0.02em;
-    }
-    
-    .screen-eleccion-inicial h1 {
-      font-size: 1.65rem;
-      font-weight: 700;
-      color: var(--numia-text);
-      margin-bottom: 0.65rem;
-      line-height: 1.25;
-    }
-    
-    .screen-eleccion-inicial .instruction {
-      font-size: 0.95rem;
-      color: var(--numia-text-light);
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
-      max-width: 26rem;
-      margin-left: auto;
-      margin-right: auto;
-    }
-    
-    .hero-carousel-dots {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.45rem;
-      margin-top: 1.35rem;
-    }
-    
-    .hero-carousel-dots .dot {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: #d8dee6;
-      flex-shrink: 0;
-    }
-    
-    .hero-carousel-dots .dot.active {
-      width: 22px;
-      border-radius: 9999px;
-      background: var(--falabella-verde);
-    }
-    
-    .btn-paso-inicial {
-      width: 100%;
-      display: block;
-      margin-top: 0.85rem;
-      padding: 1rem 1.25rem;
-      font-size: 1rem;
-      font-weight: 700;
-      font-family: inherit;
-      border-radius: 9999px;
-      cursor: pointer;
-      transition: transform 0.2s, box-shadow 0.2s;
-      border: 2px solid transparent;
-    }
-    
-    .btn-paso-inicial:first-of-type {
-      margin-top: 0;
-    }
-    
-    .btn-paso-inicial--sucursal {
-      background: var(--aban-burgundy);
-      color: #ffffff;
-      border-color: var(--aban-burgundy);
-    }
-    
-    .btn-paso-inicial--sucursal:hover {
-      background: var(--inbursa-azul-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 48, 135, 0.35);
-    }
-    
-    .btn-paso-inicial--cita {
-      background: #ffffff;
-      color: var(--inbursa-azul);
-      border-color: var(--inbursa-azul);
-    }
-    
-    .btn-paso-inicial--cita:hover {
-      background: var(--numia-azul-muy-claro);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 48, 135, 0.2);
-    }
-    
-    #screenForm {
-      display: none;
-    }
-    
-    #screenAgendaCita {
-      display: none;
-      width: 100%;
-      max-width: 520px;
-    }
-    
-    .screen-agenda-cita {
-      text-align: left;
-    }
-    
-    .screen-agenda-cita .agenda-titulo {
-      font-size: 1.35rem;
-      font-weight: 700;
-      color: var(--numia-text);
-      margin-bottom: 1rem;
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-    
-    .screen-agenda-cita .agenda-titulo i {
-      color: var(--aban-red);
-    }
-    
-    .screen-agenda-cita .cita-toolbar {
-      padding-bottom: 0.75rem;
-      margin-bottom: 0.75rem;
-      border-bottom: 1px solid var(--numia-border);
-    }
-    
-    .screen-agenda-cita .form-label {
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--numia-text);
-      margin-bottom: 0.35rem;
-    }
-    
-    .screen-agenda-cita .form-select,
-    .screen-agenda-cita .form-control {
-      border-radius: 12px;
-      border: 1px solid var(--numia-border);
-      font-size: 0.95rem;
-    }
-    
-    .screen-agenda-cita .form-select:focus,
-    .screen-agenda-cita .form-control:focus {
-      border-color: var(--aban-burgundy);
-      box-shadow: 0 0 0 0.2rem rgba(0, 48, 135, 0.15);
-    }
-    
-    
-    #citaSlots {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(88px, 1fr));
-      gap: 0.5rem;
-      max-height: 280px;
-      overflow-y: auto;
-      padding: 0.25rem 0.25rem 0.5rem 0;
-    }
-    
-    #citaSlots .cita-slot-btn {
-      border-radius: 12px;
-      border: 1px solid rgba(0, 48, 135, 0.22);
-      background: #ffffff;
-      color: var(--numia-text);
-      font-weight: 600;
-      font-size: 0.9rem;
-      padding: 0.5rem 0.35rem;
-      cursor: pointer;
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
-      font-family: inherit;
-    }
-    
-    #citaSlots .cita-slot-btn:hover {
-      background: var(--numia-azul-muy-claro);
-      border-color: rgba(0, 48, 135, 0.35);
-    }
-    
-    #citaSlots .cita-slot-btn.active {
-      background: var(--aban-red);
-      color: #ffffff;
-      border-color: var(--aban-red);
-    }
-    
-    .screen-agenda-cita .cita-leyenda {
-      font-size: 0.8rem;
-      color: var(--numia-text-light);
-      margin-top: 0.5rem;
-    }
-    
-    .screen-agenda-cita .btn-continuar-agenda {
-      width: 100%;
-      margin-top: 1rem;
-      padding: 0.95rem 1.25rem;
-      font-size: 1rem;
-      font-weight: 700;
-      font-family: inherit;
-      border: none;
-      border-radius: 9999px;
-      background: var(--aban-red);
-      color: #ffffff;
-      cursor: pointer;
-      transition: background 0.2s, transform 0.2s;
-    }
-    
-    .screen-agenda-cita .btn-continuar-agenda:hover:not(:disabled) {
-      background: var(--inbursa-azul-hover);
-      transform: translateY(-1px);
-    }
-    
-    .screen-agenda-cita .btn-continuar-agenda:disabled {
-      opacity: 0.45;
-      cursor: not-allowed;
-    }
-    
-    .screen-agenda-cita .btn-volver-agenda {
-      background: none;
-      border: none;
-      color: var(--aban-burgundy);
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      text-decoration: underline;
-      padding: 0;
-      margin-bottom: 0.75rem;
-      font-family: inherit;
-    }
-    
-    .screen-agenda-cita .btn-volver-agenda:hover {
-      color: var(--aban-red);
-    }
-    
-    #citaAlertAgenda.alert {
-      border-radius: 12px;
-      font-size: 0.9rem;
-    }
-    
-    /* Pantalla 1: Formulario (Nombre, Apellido, ID/CURP, Email) */
-    .screen-form {
-      width: 100%;
-      max-width: 500px;
-      text-align: left;
-    }
-    
-    .screen-form h1 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--numia-text);
-      margin-bottom: 0.5rem;
-      text-align: center;
-    }
-    
-    .screen-form .instruction {
-      font-size: 0.95rem;
-      color: var(--numia-text-light);
-      margin-bottom: 1.25rem;
-      text-align: center;
-    }
-    
-    .screen-form .form-group {
-      margin-bottom: 1rem;
-    }
-    
-    .screen-form .form-group label {
-      display: block;
-      font-weight: 600;
-      color: var(--numia-text);
-      margin-bottom: 0.35rem;
-      font-size: 0.9rem;
-    }
-    
-    .screen-form .form-group input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      border: 1px solid var(--numia-border);
-      border-radius: 12px;
-      font-size: 1rem;
-      color: var(--numia-text);
-      transition: border-color 0.2s;
-    }
-    
-    .screen-form .form-group input:focus {
-      outline: none;
-      border-color: var(--numia-azul);
-    }
-    
-    .screen-form .form-group input::placeholder {
-      color: var(--numia-text-light);
-      opacity: 0.8;
-    }
-    
-    .screen-form .btn-continuar-form {
-      width: 100%;
-      margin-top: 1.25rem;
-      background: var(--aban-red);
-      color: #ffffff;
-      border: none;
-      border-radius: 9999px;
-      padding: 0.95rem 1.25rem;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-      cursor: pointer;
-      transition: all 0.25s;
-    }
-    
-    .screen-form .btn-continuar-form:hover {
-      background: var(--inbursa-azul-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0, 48, 135, 0.3);
-    }
-    
-    .screen-form .form-error {
-      color: #dc2626;
-      font-size: 0.85rem;
-      margin-top: 0.25rem;
-    }
-    
-    /* Pantalla 2: Opciones de atención */
-    .screen-opciones {
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-      display: none;
-    }
-    
-    .screen-opciones.active {
-      display: block;
-    }
-    
-    .screen-opciones h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--numia-text);
-      margin-bottom: 0.5rem;
-    }
-    
-    .screen-opciones .subtitle {
-      font-size: 0.95rem;
-      color: var(--numia-text-light);
-      margin-bottom: 1rem;
-    }
-    
-    .opciones-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      align-items: stretch;
-    }
-    
-    .opcion-card {
-      background: #ffffff;
-      border: 2px solid var(--numia-border);
-      border-radius: 16px;
-      padding: 1.25rem;
-      cursor: pointer;
-      transition: all 0.3s;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-    }
-    
-    .opcion-card.videollamada {
-      padding: 1.5rem 1.25rem;
-    }
-    
-    .opcion-card.videollamada .opcion-icon {
-      font-size: 3rem;
-    }
-    
-    .opcion-card.videollamada .opcion-title {
-      font-size: 1.3rem;
-    }
-    
-    .opcion-card.presencial {
-      padding: 1rem;
-    }
-    
-    .opcion-card.presencial .opcion-icon {
-      font-size: 2rem;
-    }
-    
-    .opcion-card.presencial .opcion-title {
-      font-size: 1rem;
-    }
-    
-    .opcion-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-    }
-    
-    .opcion-card.videollamada {
-      border-color: var(--aban-red);
-      border-width: 2px;
-      background: linear-gradient(135deg, #ffffff 0%, #fce8ea 100%);
-    }
-    
-    .opcion-card.videollamada:hover {
-      border-color: var(--aban-red);
-      box-shadow: 0 8px 28px rgba(227, 6, 19, 0.18);
-    }
-    
-    .opcion-card.presencial {
-      border-color: var(--aban-burgundy);
-      background: linear-gradient(135deg, #f0f5ff 0%, #d6e4f7 100%);
-    }
-    
-    .opcion-card.presencial:hover {
-      border-color: var(--aban-burgundy);
-      box-shadow: 0 8px 28px rgba(0, 48, 135, 0.16);
-    }
-    
-    .opcion-card.disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-    }
-    
-    .opcion-card.disabled:hover {
-      transform: none;
-    }
-    
-    .opcion-icon {
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .opcion-card.videollamada .opcion-icon {
-      color: var(--aban-red);
-    }
-    
-    .opcion-card.presencial .opcion-icon {
-      color: var(--aban-burgundy);
-    }
-    
-    .opcion-title {
-      font-size: 1.1rem;
-      font-weight: 700;
-      color: var(--numia-text);
-      margin-bottom: 0.25rem;
-      line-height: 1.25;
-    }
-    
-    .opcion-title.opcion-title--multiline {
-      font-size: 0.98rem;
-    }
-    
-    .opcion-badge {
-      display: inline-block;
-      background: var(--falabella-rosa);
-      color: #ffffff;
-      font-size: 0.65rem;
-      font-weight: 600;
-      padding: 0.35rem 0.65rem;
-      border-radius: 9999px;
-      margin-top: 0.25rem;
-    }
-    
-    .opcion-badge.less-recommended {
-      background: var(--aban-burgundy);
-      color: #ffffff;
-    }
-    
-    .opcion-desc {
-      font-size: 0.75rem;
-      color: var(--numia-text-light);
-      margin-top: 0.25rem;
-    }
-    
-    /* Pantalla 3: Confirmación */
-    .screen-confirmacion {
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-      display: none;
-    }
-    
-    .screen-confirmacion.active {
-      display: block;
-    }
-    
-    .screen-confirmacion .success-icon {
-      font-size: 3.5rem;
-      color: var(--aban-red);
-      margin-bottom: 1rem;
-      animation: pulse 2s infinite;
-    }
-    
-    @keyframes pulse {
-      0%, 100% { transform: scale(1); }
-      50% { transform: scale(1.1); }
-    }
-    
-    .screen-confirmacion h2 {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--numia-text);
-      margin-bottom: 0.75rem;
-    }
-    
-    .screen-confirmacion .message {
-      font-size: 1rem;
-      color: var(--numia-text-light);
-      margin-bottom: 1.5rem;
-      line-height: 1.5;
-    }
-    
-    .tiempo-espera {
-      background: var(--numia-azul-muy-claro);
-      border: 2px solid rgba(0, 48, 135, 0.2);
-      border-radius: 16px;
-      padding: 1rem;
-      margin-bottom: 1rem;
-    }
-    
-    .tiempo-espera-label {
-      font-size: 0.8rem;
-      color: var(--numia-text-light);
-      margin-bottom: 0.25rem;
-    }
-    
-    .tiempo-espera-valor {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--aban-burgundy);
-    }
-    
-    .video-link-container {
-      margin-top: 2rem;
-    }
-    
-    .btn-video {
-      background: var(--aban-red);
-      color: #ffffff;
-      border: none;
-      border-radius: 9999px;
-      padding: 1rem 2rem;
-      font-size: 1.05rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      display: inline-block;
-      transition: all 0.3s;
-    }
-    
-    .btn-video:hover {
-      background: var(--inbursa-azul-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(227, 6, 19, 0.35);
-      color: #ffffff;
-    }
-    
-    .screen-expediente-pendiente {
-      width: 100%;
-      max-width: 500px;
-      text-align: center;
-      display: none;
-    }
-    
-    .screen-expediente-pendiente.active {
-      display: block;
-    }
-    
-    .screen-expediente-pendiente .expediente-icon {
-      font-size: 3rem;
-      color: var(--aban-burgundy);
-      margin-bottom: 1rem;
-    }
-    
-    .screen-expediente-pendiente h2 {
-      font-size: 1.45rem;
-      font-weight: 700;
-      color: var(--numia-text);
-      margin-bottom: 0.75rem;
-    }
-    
-    .screen-expediente-pendiente .expediente-message {
-      font-size: 0.98rem;
-      color: var(--numia-text-light);
-      line-height: 1.55;
-      margin-bottom: 1rem;
-      text-align: left;
-    }
-    
-    .screen-expediente-pendiente .expediente-folio-ref {
-      font-size: 0.95rem;
-      color: var(--numia-text);
-      margin-bottom: 1.5rem;
-    }
-    
-    .screen-expediente-pendiente .expediente-actions {
-      display: flex;
-      flex-direction: column;
-      gap: 0.85rem;
-      align-items: stretch;
-    }
-    
-    .btn-expediente {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      width: 100%;
-      padding: 0.95rem 1.25rem;
-      font-size: 1rem;
-      font-weight: 700;
-      font-family: inherit;
-      border-radius: 9999px;
-      cursor: pointer;
-      text-decoration: none;
-      border: 2px solid transparent;
-      transition: transform 0.2s, box-shadow 0.2s;
-    }
-    
-    .btn-expediente--docs {
-      background: #ffffff;
-      color: var(--aban-burgundy);
-      border-color: var(--aban-burgundy);
-    }
-    
-    .btn-expediente--docs:hover {
-      background: var(--numia-azul-muy-claro);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 18px rgba(0, 48, 135, 0.18);
-    }
-    
-    .btn-expediente--wa {
-      background: #25d366;
-      color: #ffffff;
-      border-color: #25d366;
-    }
-    
-    .btn-expediente--wa:hover {
-      background: #1fb855;
-      color: #ffffff;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.35);
-    }
-    
-    @media (max-width: 560px) {
-      .totem-header {
-        flex-wrap: wrap;
-        row-gap: 0.75rem;
-      }
-      
-      .totem-nav {
-        width: 100%;
-        justify-content: flex-end;
-        font-size: 0.82rem;
-        gap: 0.85rem;
-      }
-    }
-    
-    /* ─── Bloque WhatsApp / QR (turno presencial directo) ─── */
-    .wa-oferta-container {
-      display: none;
-      margin-top: 1.25rem;
-      width: 100%;
-    }
-
-    .wa-oferta-container.visible {
-      display: block;
-    }
-
-    .wa-alerta-demanda {
-      background: #fff8e1;
-      border: 2px solid #f9a825;
-      border-radius: 14px;
-      padding: 0.85rem 1rem;
-      display: flex;
-      align-items: flex-start;
-      gap: 0.65rem;
-      margin-bottom: 1rem;
-      text-align: left;
-    }
-
-    .wa-alerta-demanda i {
-      color: #f9a825;
-      font-size: 1.3rem;
-      flex-shrink: 0;
-      margin-top: 0.1rem;
-    }
-
-    .wa-alerta-demanda-texto {
-      font-size: 0.88rem;
-      color: #5a4000;
-      line-height: 1.45;
-    }
-
-    .wa-alerta-demanda-texto strong {
-      display: block;
-      font-size: 0.95rem;
-      color: #3e2c00;
-      margin-bottom: 0.2rem;
-    }
-
-    .wa-oferta-card {
-      background: #ffffff;
-      border: 2px solid #25d366;
-      border-radius: 16px;
-      padding: 1rem 1.25rem;
+    .mobile-app-header {
+      background: linear-gradient(135deg, #006937 0%, #007A3D 60%, #00a050 100%);
+      padding: 1rem 1.5rem;
+      color: white;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 1rem;
+      flex-shrink: 0;
     }
-
-    .wa-oferta-info {
-      flex: 1;
-      text-align: left;
-    }
-
-    .wa-oferta-info .wa-oferta-titulo {
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: #1a1a2e;
-      margin-bottom: 0.25rem;
-    }
-
-    .wa-oferta-info .wa-oferta-desc {
-      font-size: 0.82rem;
-      color: #5c6b8a;
-      line-height: 1.4;
-      margin-bottom: 0.65rem;
-    }
-
-    .btn-wa-pedido {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      background: #25d366;
-      color: #ffffff;
-      border: none;
-      border-radius: 9999px;
-      padding: 0.5rem 1.1rem;
-      font-size: 0.88rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background 0.2s, transform 0.2s;
-      font-family: inherit;
-    }
-
-    .btn-wa-pedido:hover {
-      background: #1fb855;
-      color: #ffffff;
+    
+    .mobile-app-header button:hover {
+      background-color: rgba(255, 255, 255, 0.3) !important;
+      border-color: rgba(255, 255, 255, 0.5) !important;
       transform: translateY(-1px);
     }
-
-    /* QR grande centrado debajo */
-    .wa-qr-section {
-      margin-top: 1rem;
-      text-align: center;
+    
+    .mobile-app-header button:active {
+      transform: translateY(0);
+      background-color: rgba(255, 255, 255, 0.25) !important;
     }
-
-    .wa-qr-section .wa-qr-label {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: #5c6b8a;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.5rem;
+    
+    .mobile-app-content {
+      background: #f5f5f5;
+      padding: 1rem;
+      flex: 1;
+      overflow-y: auto;
+      min-height: 0;
     }
-
-    .wa-qr-section img {
-      width: 180px;
-      height: 180px;
-      object-fit: contain;
-      border-radius: 12px;
-      border: 2px solid #e0e8f5;
-      padding: 6px;
-      background: #fff;
+    
+    .mobile-app-content::-webkit-scrollbar {
+      width: 6px;
     }
-
-    /* ─── Número de turno destacado ─── */
-    .turno-numero-badge {
-      display: none;
-      background: var(--siman-azul);
-      color: #ffffff;
-      border-radius: 14px;
-      padding: 0.75rem 1rem;
-      margin-bottom: 0.75rem;
+    
+    .mobile-app-content::-webkit-scrollbar-track {
+      background: #f1f1f1;
     }
-
-    .turno-numero-badge.visible {
-      display: block;
+    
+    .mobile-app-content::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 3px;
     }
-
-    .turno-numero-label {
-      font-size: 0.78rem;
-      opacity: 0.85;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      margin-bottom: 0.2rem;
+    
+    .mobile-app-content::-webkit-scrollbar-thumb:hover {
+      background: #555;
     }
-
-    .turno-numero-valor {
-      font-size: 2rem;
-      font-weight: 700;
-      letter-spacing: 0.06em;
-    }
-
-    /* Log container (igual que app-cliente.html) */
+    
+    /* Sección de logs a la derecha */
     .log-container {
       flex: 1;
       min-width: 400px;
@@ -991,14 +108,14 @@
       background: #1a1a1a;
       border-radius: 12px;
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-      display: none;
+      display: none; /* Oculto inicialmente */
       flex-direction: column;
       height: calc(100vh - 4rem);
       overflow: hidden;
     }
     
     .log-container.visible {
-      display: flex;
+      display: flex; /* Mostrar cuando tenga la clase visible */
     }
     
     .log-header {
@@ -1016,7 +133,7 @@
     }
     
     .log-header::before {
-      content: 'â–¶';
+      content: '▶';
       color: #ffffff;
       animation: blink 1s infinite;
     }
@@ -1030,7 +147,7 @@
       flex: 1;
       overflow-y: auto;
       padding: 1rem;
-      color: #ffffff;
+      color: #e0e0e0;
       font-family: 'Courier New', monospace;
       font-size: 0.85rem;
       line-height: 1.6;
@@ -1053,6 +170,17 @@
       background: #777;
     }
     
+    .navbar {
+      display: none; /* Ocultar navbar original */
+    }
+    
+    .main-container {
+      max-width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    
+    /* Ajustar estilos de la sección de atención para el log */
     .atencion-section {
       background: transparent !important;
       border-radius: 0;
@@ -1066,6 +194,15 @@
       display: block;
     }
     
+    .atencion-section .section-title {
+      color: #ffffff;
+      font-family: 'Courier New', monospace;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+      border-bottom: 1px solid #333;
+      padding-bottom: 0.5rem;
+    }
+    
     .steps-container {
       margin: 0;
     }
@@ -1076,7 +213,7 @@
       border-radius: 4px;
       padding: 0.75rem;
       margin-bottom: 0.75rem;
-      color: #ffffff;
+      color: #e0e0e0;
       font-family: 'Courier New', monospace;
     }
     
@@ -1096,45 +233,24 @@
       margin-bottom: 0.25rem;
     }
     
+    .step-duration {
+      color: #888;
+      font-size: 0.75rem;
+    }
+    
     .step-output-content {
       background: #1a1a1a;
       border: 1px solid #333;
       border-radius: 4px;
       padding: 0.75rem;
       margin-top: 0.5rem;
-      color: #ffffff;
-    }
-    
-    .summary-section {
-      background: #2d2d2d;
-      border-left: 3px solid #ffffff;
-      border-radius: 4px;
-      padding: 1rem;
-      margin-top: 1rem;
-      color: #ffffff;
-    }
-    
-    .summary-title {
-      color: #ffffff;
-      font-family: 'Courier New', monospace;
-    }
-    
-    .summary-content {
-      color: #ffffff;
-      font-family: 'Courier New', monospace;
-      white-space: pre-line;
-    }
-    
-    .conversation-output {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
+      color: #e0e0e0;
     }
     
     .conversation-line {
       background: #1a1a1a;
       border-left: 2px solid #444;
-      color: #ffffff;
+      color: #e0e0e0;
     }
     
     .conversation-line.success {
@@ -1154,13 +270,32 @@
       border-left-color: #4444ff;
     }
     
+    .summary-section {
+      background: #2d2d2d;
+      border-left: 3px solid #ffffff;
+      border-radius: 4px;
+      padding: 1rem;
+      margin-top: 1rem;
+      color: #e0e0e0;
+    }
+    
+    .summary-title {
+      color: #ffffff;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .summary-content {
+      color: #e0e0e0;
+      font-family: 'Courier New', monospace;
+    }
+    
     @media (max-width: 1024px) {
       body {
         flex-direction: column;
         padding: 1rem;
       }
       
-      .totem-container {
+      .mobile-app-container {
         max-width: 100%;
         height: 50vh;
       }
@@ -1171,165 +306,657 @@
         height: 50vh;
       }
     }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 0;
+      }
+      
+      .mobile-app-container {
+        border-radius: 0;
+        height: 100vh;
+      }
+      
+      .log-container {
+        height: 50vh;
+      }
+    }
+    
+    .welcome-section {
+      background: linear-gradient(135deg, #005c2b 0%, #007A3D 60%, #00a050 100%);
+      border-radius: 16px;
+      padding: 2rem;
+      color: white;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 20px rgba(0, 122, 61, 0.3);
+    }
+    
+    .welcome-section h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    
+    .welcome-section p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+    
+    .welcome-section select {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      font-size: 0.95rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .welcome-section select:hover {
+      background: rgba(255, 255, 255, 0.25);
+      border-color: rgba(255, 255, 255, 0.4);
+    }
+    
+    .welcome-section select:focus {
+      outline: none;
+      background: rgba(255, 255, 255, 0.3);
+      border-color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .welcome-section select option {
+      background: #007A3D;
+      color: white;
+    }
+    
+    .balance-card {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+    
+    .balance-label {
+      color: var(--numia-text-light);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.5rem;
+    }
+    
+    .balance-amount {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--numia-text);
+      margin-bottom: 1rem;
+    }
+    
+    .balance-subtitle {
+      color: var(--numia-text-light);
+      font-size: 0.95rem;
+    }
+    
+    .products-section {
+      margin-bottom: 2rem;
+    }
+    
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--numia-text);
+      margin-bottom: 1.5rem;
+    }
+    
+    .product-card {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      transition: all 0.3s ease;
+      border-left: 4px solid var(--numia-azul);
+    }
+    
+    .product-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+    }
+    
+    .product-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+    }
+    
+    .product-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--numia-azul-claro);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--numia-azul);
+      font-size: 1.5rem;
+    }
+    
+    .product-type {
+      font-weight: 600;
+      color: var(--numia-text);
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+    
+    .product-number {
+      color: var(--numia-text-light);
+      font-size: 0.9rem;
+      font-family: 'Courier New', monospace;
+    }
+    
+    .product-balance {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--numia-text);
+      margin-top: 0.5rem;
+    }
+    
+    .product-balance.positive {
+      color: var(--numia-success);
+    }
+    
+    .product-balance.negative {
+      color: #ef4444;
+    }
+    
+    .product-details {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--numia-border);
+    }
+    
+    .product-detail-item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .product-detail-label {
+      color: var(--numia-text-light);
+    }
+    
+    .product-detail-value {
+      font-weight: 600;
+      color: var(--numia-text);
+    }
+    
+    .btn-atencion {
+      background: var(--numia-azul);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      padding: 1rem 2rem;
+      font-weight: 600;
+      font-size: 1.1rem;
+      width: 100%;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0, 122, 61, 0.3);
+    }
+    
+    .btn-atencion:hover {
+      background: #005c2b;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 122, 61, 0.4);
+    }
+    
+    .btn-atencion i {
+      margin-right: 0.5rem;
+    }
+    
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    
+    .quick-action-btn {
+      background: white;
+      border: 2px solid var(--numia-border);
+      border-radius: 12px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      text-decoration: none;
+      color: var(--numia-text);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .quick-action-btn:hover {
+      border-color: var(--numia-azul);
+      color: var(--numia-azul);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    
+    .quick-action-btn i {
+      font-size: 2rem;
+      color: var(--numia-azul);
+    }
+    
+    .quick-action-btn span {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    
+    .atencion-section {
+      background: white;
+      border-radius: 16px;
+      padding: 2rem;
+      margin-top: 2rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+      display: none;
+    }
+    
+    .atencion-section.active {
+      display: block;
+    }
+    
+    .steps-container {
+      margin-top: 1.5rem;
+    }
+    
+    .step-item {
+      background: var(--numia-bg);
+      border-left: 4px solid var(--numia-azul);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      position: relative;
+    }
+    
+    .step-item.completed {
+      border-left-color: var(--numia-success);
+      background: #f0fdf4;
+    }
+    
+    .step-item.processing {
+      border-left-color: #f59e0b;
+      background: #fffbeb;
+    }
+    
+    .step-header {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .step-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+    
+    .step-icon.text {
+      background: var(--numia-azul-claro);
+      color: var(--numia-azul);
+    }
+    
+    .step-icon.tool {
+      background: #fef3c7;
+      color: #d97706;
+    }
+    
+    .step-icon.completed {
+      background: var(--numia-success);
+      color: white;
+    }
+    
+    .step-title {
+      font-weight: 600;
+      color: var(--numia-text);
+      font-size: 0.95rem;
+    }
+    
+    .step-duration {
+      color: var(--numia-text-light);
+      font-size: 0.85rem;
+      margin-left: auto;
+    }
+    
+    .step-content {
+      margin-top: 0.75rem;
+      padding-left: 2.75rem;
+    }
+    
+    .step-input {
+      background: white;
+      border: 1px solid var(--numia-border);
+      border-radius: 6px;
+      padding: 0.75rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: var(--numia-text);
+    }
+    
+    .step-output {
+      background: white;
+      border: 1px solid var(--numia-border);
+      border-radius: 6px;
+      padding: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--numia-text);
+      max-height: 200px;
+      overflow-y: auto;
+    }
+    
+    .step-output pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      font-size: 0.85rem;
+    }
+    
+    .step-output-content {
+      background: #f8f9fa;
+      border: 1px solid var(--numia-border);
+      border-radius: 8px;
+      padding: 1rem;
+      margin-top: 0.5rem;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--numia-text);
+    }
+    
+    .conversation-output {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    
+    .conversation-line {
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
+      background: white;
+      border-left: 3px solid var(--numia-azul);
+    }
+    
+    .conversation-line.success {
+      background: #f0fdf4;
+      border-left-color: var(--numia-success);
+      color: #166534;
+    }
+    
+    .conversation-line.error {
+      background: #fef2f2;
+      border-left-color: #ef4444;
+      color: #991b1b;
+    }
+    
+    .conversation-line.info {
+      background: #eff6ff;
+      border-left-color: var(--numia-azul);
+    }
+    
+    .conversation-line.info strong {
+      color: var(--numia-azul);
+      margin-right: 0.5rem;
+    }
+    
+    .conversation-line.title {
+      font-weight: 600;
+      font-size: 1rem;
+      color: var(--numia-text);
+      background: transparent;
+      border-left: none;
+      padding-left: 0;
+      margin-top: 0.25rem;
+    }
+    
+    .summary-section {
+      background: linear-gradient(135deg, #e8f5ee 0%, #d4ede0 100%);
+      border-left: 4px solid var(--numia-azul);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin-top: 1.5rem;
+    }
+    
+    .summary-title {
+      font-weight: 700;
+      color: var(--numia-text);
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .summary-content {
+      color: var(--numia-text);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      white-space: pre-wrap;
+    }
+    
+    .dni-input-section {
+      background: white;
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    
+    .dni-input-group {
+      display: flex;
+      gap: 1rem;
+      align-items: flex-end;
+    }
+    
+    .dni-input-group .form-control {
+      flex: 1;
+    }
+    
+    @media (max-width: 768px) {
+      .main-container {
+        padding: 1rem;
+      }
+      
+      .balance-amount {
+        font-size: 2rem;
+      }
+      
+      .welcome-section h1 {
+        font-size: 1.5rem;
+      }
+      
+      .quick-actions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
   </style>
 </head>
 <body>
-  <!-- Contenedor del tótem -->
-  <div class="totem-container">
-    <!-- Barra superior Banamex -->
-    <div class="totem-topbar">
-      <span><i class="bi bi-telephone-fill me-1"></i>800 226 2639</span>
-      <span class="topbar-highlight">¡Hazte cliente Banamex hoy!</span>
-      <span><i class="bi bi-globe me-1"></i>banamex.com</span>
-    </div>
-    <!-- Header -->
-    <div class="totem-header">
-      <img src="images/Banamex-Logo.png" alt="Banamex" class="totem-brand-logo" width="200" height="56">
+  <script src="auth-portal.js"></script>
+  <script>AuthPortal.require();</script>
+  <!-- Contenedor tipo app móvil -->
+  <div class="mobile-app-container">
+    <!-- Header de la app móvil -->
+    <div class="mobile-app-header">
+      <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <img src="images/Banamex-Logo.png" alt="Banamex" style="height: 36px; width: auto; object-fit: contain; filter: brightness(0) invert(1);" />
+      </div>
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <i class="bi bi-bell" style="font-size: 1.2rem; opacity: 0.9;"></i>
+        <i class="bi bi-person-circle" style="font-size: 1.5rem;"></i>
+      </div>
     </div>
     
-    <!-- Contenido del tótem -->
-    <div class="totem-content">
-      <!-- Pantalla 0: Sucursal o cita -->
-      <div class="screen-eleccion-inicial" id="screenEleccionInicial">
-        <span class="hero-badge">Tu banco de confianza</span>
-        <h1>Bienvenido a Banamex</h1>
-        <div class="instruction">Estamos aquí para atenderte. Selecciona cómo deseas ser atendido y te asignamos un turno de inmediato.</div>
-        <button type="button" class="btn-paso-inicial btn-paso-inicial--sucursal" id="btnEstoyEnSucursal">
-          Estoy en la sucursal
-        </button>
-        <button type="button" class="btn-paso-inicial btn-paso-inicial--cita" id="btnGenerarCita">
-          Generar cita
-        </button>
-        <div class="hero-carousel-dots" aria-hidden="true">
-          <span class="dot active"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-          <span class="dot"></span>
-        </div>
+    <!-- Contenido de la app móvil -->
+    <div class="mobile-app-content">
+      <!-- Main Container -->
+      <div class="main-container" style="padding: 0; margin: 0;">
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+      <div style="margin-bottom: 1rem;">
+        <select id="nombreSelector" style="width: 100%; padding: 0.75rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.3); background: rgba(255, 255, 255, 0.2); color: white; font-size: 0.95rem; font-weight: 500; cursor: pointer;">
+          <option value="Jorge" selected>Jorge</option>
+          <option value="Joaquin">Joaquin</option>
+          <option value="Gustavo">Gustavo</option>
+          <option value="Martin">Martin</option>
+          <option value="Juanma S">Juanma S</option>
+          <option value="Juanma L">Juanma L</option>
+          <option value="Andrea">Andrea</option>
+          <option value="Natalia">Natalia</option>
+          <option value="Juanca">Juanca</option>
+          <option value="Aldo">Aldo</option>
+          <option value="Eduardo">Eduardo</option>
+          <option value="Manuel">Manuel</option>
+          <option value="Alberto">Alberto</option>
+          <option value="demo">Romy</option>
+          <option value="demo">demo</option>
+        </select>
       </div>
-      
-      <!-- Pantalla agenda (solo flujo "Generar cita", antes del formulario) -->
-      <div id="screenAgendaCita" class="screen-agenda-cita">
-        <button type="button" class="btn-volver-agenda" id="btnVolverAgenda">← Volver</button>
-        <h2 class="agenda-titulo"><i class="bi bi-calendar2-week"></i> Agenda tu cita</h2>
-        <div id="citaAlertAgenda" class="alert d-none" role="alert"></div>
-        <div class="cita-toolbar">
-          <input type="hidden" id="citaScheduleIdHidden" value="" aria-hidden="true" />
-          <div class="row g-3 align-items-end">
-            <div class="col-12 col-md-6">
-              <label class="form-label" for="citaBranch">Sede</label>
-              <select id="citaBranch" class="form-select" disabled>
-                <option value="">Selecciona sucursal...</option>
-              </select>
-            </div>
-            <div class="col-12 col-md-6">
-              <label class="form-label" for="citaFecha">Fecha</label>
-              <input id="citaFecha" type="date" class="form-control" disabled />
-            </div>
-          </div>
-        </div>
-        <div class="mb-2">
-          <label class="form-label">Horarios disponibles</label>
-          <div id="citaSlots"></div>
-          <p class="cita-leyenda mb-0" id="citaLeyendaAgenda">Seleccione sede y fecha para ver horarios.</p>
-        </div>
-        <button type="button" class="btn-continuar-agenda" id="btnContinuarAgenda" disabled>Continuar</button>
-      </div>
-      
-      <!-- Pantalla 1: Formulario (Nombre, Apellido, ID/CURP, Email) -->
-      <div class="screen-form" id="screenForm">
-        <h1>Bienvenido</h1>
-        <div class="instruction">Complete sus datos para continuar</div>
-        
-        <form id="formDatos" novalidate>
-          <div class="form-group">
-            <label for="inputNombre">Nombre</label>
-            <input type="text" id="inputNombre" name="nombre" placeholder="Ingrese su nombre" required>
-            <div class="form-error" id="errorNombre" style="display: none;"></div>
-          </div>
-          <div class="form-group">
-            <label for="inputApellido">Apellido</label>
-            <input type="text" id="inputApellido" name="apellido" placeholder="Ingrese su apellido" required>
-            <div class="form-error" id="errorApellido" style="display: none;"></div>
-          </div>
-          <div class="form-group">
-            <label for="inputDni">DNI</label>
-            <input type="text" id="inputDni" name="dni" placeholder="Ingrese su DNI" required>
-            <div class="form-error" id="errorDni" style="display: none;"></div>
-          </div>
-          <div class="form-group">
-            <label for="inputEmail">Email</label>
-            <input type="email" id="inputEmail" name="email" placeholder="Ingrese su email" required>
-            <div class="form-error" id="errorEmail" style="display: none;"></div>
-          </div>
-          <div class="form-group">
-            <label for="inputTelefono">Teléfono</label>
-            <input type="tel" id="inputTelefono" name="telefono" placeholder="10 dígitos, ej: 5610238726" inputmode="numeric" autocomplete="tel" required>
-            <div class="form-error" id="errorTelefono" style="display: none;"></div>
-          </div>
-          <button type="submit" class="btn-continuar-form" id="btnContinuarForm">Continuar</button>
-        </form>
-      </div>
-      
-      <!-- Pantalla 2: Opciones de atención -->
-      <div class="screen-opciones" id="screenOpciones">
-        <h2>Seleccione su preferencia</h2>
-        <div class="subtitle">Elija cómo desea ser atendido</div>
-        
-        <div class="opciones-grid" id="opcionesGrid">
-          <!-- Se llenará dinámicamente -->
-        </div>
-      </div>
-      
-      <!-- Pantalla 3: Confirmación -->
-      <div class="screen-confirmacion" id="screenConfirmacion">
-        <div class="success-icon">
-          <i class="bi bi-check-circle-fill"></i>
-        </div>
-        <h2>¡Atención solicitada!</h2>
-        <div class="message">
-          En breve uno de nuestros asesores lo atenderá.<br>
-          Por favor, manténgase en línea.
-        </div>
-        
-        <div class="tiempo-espera" id="tiempoEspera" style="display: none;">
-          <div class="tiempo-espera-label">Tiempo de espera estimado</div>
-          <div class="tiempo-espera-valor" id="tiempoEsperaValor">--</div>
-        </div>
-        
-        <div class="video-link-container" id="videoLinkContainer" style="display: none;">
-          <a href="#" id="btnVideoLink" class="btn-video" target="_blank">
-            <i class="bi bi-camera-video me-2"></i>Iniciar Videollamada
-          </a>
-        </div>
+      <h1 id="saludoNombre">¡Hola, Jorge!</h1>
+      <p>Bienvenido a tu banca en línea</p>
+      <button id="btnSolicitarAtencion" class="btn" style="background-color: rgba(255, 255, 255, 0.2); color: #ffffff; border: 1px solid rgba(255, 255, 255, 0.3); padding: 0.75rem 1.5rem; border-radius: 10px; font-size: 0.95rem; font-weight: 600; margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; transition: all 0.3s; width: auto;">
+        <i class="bi bi-geo-alt"></i><span>Estoy en la sucursal</span>
+      </button>
+    </div>
 
-        <!-- Turno número badge (presencial directo) -->
-        <div class="turno-numero-badge" id="turnoNumeroBadge">
-          <div class="turno-numero-label">Tu número de turno</div>
-          <div class="turno-numero-valor" id="turnoNumeroValor">—</div>
-        </div>
+    <!-- Balance Card -->
+    <div class="balance-card">
+      <div class="balance-label">Balance Total</div>
+      <div class="balance-amount">$125,450.00</div>
+      <div class="balance-subtitle">Disponible para usar</div>
+    </div>
 
-      </div>
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+      <a href="#" class="quick-action-btn">
+        <i class="bi bi-arrow-up-circle"></i>
+        <span>Transferir</span>
+      </a>
+      <a href="#" class="quick-action-btn">
+        <i class="bi bi-arrow-down-circle"></i>
+        <span>Recibir</span>
+      </a>
+      <a href="#" class="quick-action-btn">
+        <i class="bi bi-credit-card"></i>
+        <span>Pagar</span>
+      </a>
+      <a href="#" class="quick-action-btn">
+        <i class="bi bi-graph-up"></i>
+        <span>Invertir</span>
+      </a>
+    </div>
+
+    <!-- Products Section -->
+    <div class="products-section">
+      <h2 class="section-title">Mis Productos</h2>
       
-      <!-- Expediente desactualizado (intercepta respuesta Journey â€” no asigna turno) -->
-      <div class="screen-expediente-pendiente" id="screenExpedientePendiente">
-        <div class="expediente-icon">
-          <i class="bi bi-folder2-open"></i>
+      <!-- Cuenta Corriente -->
+      <div class="product-card">
+        <div class="product-header">
+          <div>
+            <div class="product-type">Cuenta Corriente</div>
+            <div class="product-number">****1234</div>
+          </div>
+          <div class="product-icon">
+            <i class="bi bi-wallet2"></i>
+          </div>
         </div>
-        <h2>Actualización de expediente</h2>
-        <p class="expediente-message">
-          Para continuar con su trámite, necesitamos contar con su expediente al día. Le invitamos a completar la información requerida; nuestro equipo está disponible para orientarle con el proceso de forma ágil y segura.
-        </p>
-        <p class="expediente-folio-ref">Folio de referencia: <strong>220696</strong></p>
-        <div class="expediente-actions">
-          <button type="button" class="btn-expediente btn-expediente--docs" id="btnCargarDocumentosExpediente">
-            Cargar documentos
-          </button>
-          <a class="btn-expediente btn-expediente--wa" id="btnWhatsappExpediente" href="#" target="_blank" rel="noopener noreferrer">
-            <i class="bi bi-whatsapp"></i> Cargar vía Whatsapp
-          </a>
+        <div class="product-balance positive">$85,450.00</div>
+        <div class="product-details">
+          <div class="product-detail-item">
+            <span class="product-detail-label">Disponible</span>
+            <span class="product-detail-value">$85,450.00</span>
+          </div>
+          <div class="product-detail-item">
+            <span class="product-detail-label">Límite de sobregiro</span>
+            <span class="product-detail-value">$10,000.00</span>
+          </div>
         </div>
+      </div>
+
+      <!-- Tarjeta de Crédito -->
+      <div class="product-card">
+        <div class="product-header">
+          <div>
+            <div class="product-type">Tarjeta de Crédito</div>
+            <div class="product-number">****5678</div>
+          </div>
+          <div class="product-icon">
+            <i class="bi bi-credit-card-2-front"></i>
+          </div>
+        </div>
+        <div class="product-balance negative">-$12,350.00</div>
+        <div class="product-details">
+          <div class="product-detail-item">
+            <span class="product-detail-label">Límite de crédito</span>
+            <span class="product-detail-value">$50,000.00</span>
+          </div>
+          <div class="product-detail-item">
+            <span class="product-detail-label">Disponible</span>
+            <span class="product-detail-value">$37,650.00</span>
+          </div>
+          <div class="product-detail-item">
+            <span class="product-detail-label">Fecha de corte</span>
+            <span class="product-detail-value">15 de cada mes</span>
+          </div>
+          <div class="product-detail-item">
+            <span class="product-detail-label">Fecha de pago</span>
+            <span class="product-detail-value">30 de cada mes</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Botón para solicitar atención (movido al header) -->
+    <!-- <div class="dni-input-section">
+      <button id="btnSolicitarAtencion" class="btn w-100" style="background-color: var(--numia-azul); color: #ffffff; border-color: var(--numia-azul); padding: 0.75rem 1.5rem;">
+        <i class="bi bi-geo-alt me-1"></i>Estoy en la sucursal
+      </button>
+    </div> -->
+
+    <!-- Sección de opciones de atención (se mostrará después del análisis) -->
+    <div id="opcionesAtencionSection" class="dni-input-section" style="display: none;">
+      <h3 style="font-size: 1.2rem; font-weight: 600; color: var(--numia-text); margin-bottom: 1rem; text-align: center;">Seleccione su preferencia</h3>
+      <div id="opcionesAtencionContainer" style="display: flex; flex-direction: column; gap: 1rem;">
+        <!-- Los botones se agregarán aquí dinámicamente -->
+      </div>
+      <div id="resultadoAtencionApp" style="margin-top: 1rem; display: none;"></div>
+    </div>
+
+    <!-- Menú de opciones presenciales (se mostrará al presionar "Estoy en la sucursal") -->
+    <div id="menuOpcionesPresencial" class="dni-input-section" style="display: none;">
+      <h3 style="font-size: 1.2rem; font-weight: 600; color: var(--numia-text); margin-bottom: 1rem; text-align: center;">¿Cómo podemos ayudarlo?</h3>
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <button id="btnOpcionPrestamos" class="btn w-100" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+          <i class="bi bi-cash-coin me-2"></i>Préstamos
+        </button>
+        <button id="btnOpcionTarjetas" class="btn w-100" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+          <i class="bi bi-credit-card me-2"></i>Tarjetas de crédito
+        </button>
+        <button id="btnOpcionInversiones" class="btn w-100" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+          <i class="bi bi-graph-up-arrow me-2"></i>Inversiones
+        </button>
+      </div>
+    </div>
+
       </div>
     </div>
   </div>
@@ -1340,6 +967,7 @@
       Análisis del Agente
     </div>
     <div class="log-content">
+      <!-- Sección de Resultados de Atención -->
       <div id="atencionSection" class="atencion-section">
         <div id="stepsContainer" class="steps-container">
           <!-- Los pasos se agregarán aquí dinámicamente -->
@@ -1356,960 +984,222 @@
     </div>
   </div>
 
+
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    // Esperar a que el DOM esté completamente cargado
     document.addEventListener('DOMContentLoaded', function() {
       // Configuración de la API Journey Builder
-      const JOURNEY_API_URL = 'https://api.journeybuilder.numia.co/api/v1/run/38223ec2-6123-4e6e-862a-4945161ed221?stream=false';
+      const JOURNEY_API_URL = 'https://api.journeybuilder.numia.co/api/v1/run/d83a2fbd-f8d0-468f-9ecd-375709fd149f?stream=false';
       const JOURNEY_API_KEY = 'sk-WfTsCY302RrciqoVRYAZWruD9mpyPKatAo8GU8tyzIM';
-      /** Interceptación: respuesta â€œcliente no encontrado por DNIâ€ â†’ expediente desactualizado (folio demo). */
-      const FOLIO_EXPEDIENTE_INBURSA = '220696';
-      const WA_EXPEDIENTE_E164 = '5215518624901';
-      /** Flujo "Estoy en la sucursal" + DNI demo: siempre videollamada (recomendada) + presencial. */
-      const DNI_SUCURSAL_DOBLE_ATENCION = '29328704';
-      /** Filavirtual: mismas colas para todos los trámites; sucursal y token globales. */
-      const FILA_VIRTUAL = {
-        BASE_URL: 'https://filavirtual2.debmedia.com/api/v1',
-        BRANCH_ID: '10750',
-        API_TOKEN: 'XlOIHNe0yDnF6htBZWhdv3uFHxQKanqdVNQZC17w',
-        QUEUE_VIDEO: '16223',
-        QUEUE_PRESENCIAL: '16221'
-      };
-      /** Flujo cita + este DNI/ID: siempre muestra videollamada y presencial; al encolar usa payload enriquecido para Seguros Falabella (título "Cita generada"). */
-      const DNI_CITA_TURNO_DIRECTO = '240696';
-      
-      function normalizarTextoDeteccion(texto) {
-        return String(texto || '')
-          .toLowerCase()
-          .normalize('NFD')
-          .replace(/[\u0300-\u036f]/g, '');
-      }
-      
-      /**
-       * Detecta respuestas tipo â€œcliente no localizado por DNIâ€ (redacción variable del Journey).
-       * Incluye variantes con â€œmás informaciónâ€, â€œasistirte mejorâ€, etc. No depende del valor del DNI.
-       */
-      function debeInterceptarExpedienteIncompleto(messageText) {
-        if (pasoInicialOrigen === 'cita' && String(formDni || '').trim() === DNI_CITA_TURNO_DIRECTO) return false;
-        if (!messageText || typeof messageText !== 'string') return false;
-        const t = normalizarTextoDeteccion(messageText);
-        const mencionaIdentidad =
-          t.includes('dni') || t.includes('cedula') || t.includes('documento de identidad') || t.includes('documento');
-        if (!mencionaIdentidad) return false;
-        const indicaNoEncontrado =
-          (t.includes('no se encontro') && (t.includes('cliente') || t.includes('ningun'))) ||
-          t.includes('no se encontro ningun cliente') ||
-          t.includes('ningun cliente con') ||
-          (t.includes('no encontramos') && t.includes('cliente')) ||
-          (t.includes('sin') && t.includes('cliente') && t.includes('registro'));
-        if (!indicaNoEncontrado) return false;
-        if (!indicaNoEncontrado) return false;
-        const indicaContextoOAccion =
-          t.includes('base de datos') ||
-          t.includes('nuestra base') ||
-          t.includes('verifica') ||
-          t.includes('proporciona') ||
-          t.includes('informacion adicional') ||
-          t.includes('mas informacion') ||
-          t.includes('más información') ||
-          t.includes('asistirte') ||
-          t.includes('asistir mejor') ||
-          t.includes('asistirte mejor') ||
-          t.includes('poder asistir');
-        /** Flujo Generar cita: si el mensaje ya indica â€œno encontradoâ€ con DNI, se aplica expediente aunque el API cambie el resto del texto. */
-        if (pasoInicialOrigen === 'cita') return true;
-        return indicaContextoOAccion;
-      }
-      
-      function textoResumenConsolaExpedienteDesactualizado() {
-        return (
-          'Cliente Banamex con expediente desactualizado.\n' +
-          'Se debe completar expediente para poder proceder con el trámite seleccionado.\n' +
-          'Folio: ' + FOLIO_EXPEDIENTE_INBURSA
-        );
-      }
-      
-      // Variables de estado (datos del formulario)
-      let formNombre = '';
-      let formApellido = '';
-      let formDni = '';
-      let formEmail = '';
-      let formTelefono = '';
-      /** 'sucursal' | 'cita' â€” elección del paso inicial (antes del formulario). */
-      let pasoInicialOrigen = null;
-      
-      function esSucursalDniDobleAtencionEspecial() {
-        return pasoInicialOrigen === 'sucursal' && String(formDni || '').trim() === DNI_SUCURSAL_DOBLE_ATENCION;
-      }
-      
-      function esCitaDniTurnoDirecto() {
-        return pasoInicialOrigen === 'cita' && String(formDni || '').trim() === DNI_CITA_TURNO_DIRECTO;
-      }
-      
-      /** ID/CURP demo: en cualquier flujo (sucursal o cita) siempre se ofrecen videollamada y presencial. */
-      function esDniDemoDobleCanal240696() {
-        return String(formDni || '').trim() === DNI_CITA_TURNO_DIRECTO;
-      }
-      
-      function soloDigitosTelefono(val) {
-        return String(val || '').replace(/\D/g, '');
-      }
-      
-      /** Texto seguro para extrafields y visores basicos: sin saltos, sin HTML, sin signos que suelen romper parsers. */
-      function textoPlanoExtra(val, maxLen) {
-        var s = String(val || '').trim();
-        s = s.replace(/[\r\n\t]+/g, ' ').replace(/\s+/g, ' ');
-        s = s.replace(/[<>&]/g, '');
-        if (maxLen && s.length > maxLen) s = s.slice(0, maxLen);
-        return s;
-      }
-      
-      function textoOfertaTramiteSeguros(op) {
-        if (op === 'prestamos') return 'Ofrecer seguro de vida Banamex';
-        if (op === 'tarjetas') return 'Ofrecer seguro de auto Banamex';
-        if (op === 'inversiones') return 'Ofrecer préstamo personal Banamex';
-        return 'Ofrecer producto Banamex';
-      }
-      
-      /** Cross-sell: una línea corta, otro producto al trámite actual. */
-      function ofertaCrossSellBreve(op) {
-        if (op === 'prestamos') {
-          return textoPlanoExtra('Seguros de vida o gastos médicos mayores Banamex.', 90);
-        }
-        if (op === 'tarjetas') {
-          return textoPlanoExtra('Inversiones o cuentas de ahorro Banamex.', 90);
-        }
-        if (op === 'inversiones') {
-          return textoPlanoExtra('Tarjeta de crédito Banamex Clásica u Oro.', 90);
-        }
-        return textoPlanoExtra('Protección patrimonial complementaria.', 80);
-      }
-      
-      var DOC_URL_IDENTIFICACION =
-        'https://drive.google.com/file/d/17LIKWYYIVOBkJifhC9Re-qF_h7QzbKZ-/view?usp=drive_link';
-      
-      function nuevoIdInteraccion() {
-        return 'INT-' + String(Math.floor(100000 + Math.random() * 900000));
-      }
-      
-      /** Texto derecha muy breve; muchas filas. Límite por defecto bajo para no saturar celdas. */
-      function corto(s, max) {
-        return textoPlanoExtra(s, max != null ? max : 52);
-      }
-      
-      /**
-       * Una fila por clave; valores cortos tipo referencia Postman; más filas, menos caracteres por valor.
-       */
-      function armarExtraFieldsFilasCortas(op, nom, ape, curp, mail, ph) {
-        var idInt = nuevoIdInteraccion();
-        var tramite = textoOfertaTramiteSeguros(op).replace(/^Ofrecer /, '');
-        var docLabel = 'Ver ID';
-        var filas = {
-          showable: [{ in: 'workstation', format: 'both' }],
-          Nombre: corto(nom, 48),
-          Apellidos: corto(ape, 48),
-          'CURP / ID': corto(curp, 28),
-          Email: corto(mail, 56),
-          Teléfono: corto(ph, 18),
-          'Trámite en curso': corto(tramite, 40)
-        };
-        if (op === 'prestamos') {
-          Object.assign(filas, {
-            'Perfil orientativo': corto('742/900. Sin alertas.', 40),
-            Propensión: corto('Alta: familia.', 28),
-            'Suma referencia': corto('2.5 MMXN ref. No vinc.', 36),
-            'Canal de captación': corto('Tótem digital.', 28),
-            'Sincronización CRM': corto('Lead automático.', 28),
-            'ID de interacción': corto(idInt, 22),
-            'Motor de reglas': corto('Ejecutivo + contexto.', 36),
-            'Validación identidad': corto('Prevalidado digital.', 32),
-            'Ahorro de tiempo': corto('~4-6 min vs manual.', 32),
-            'PEP / FATCA': corto('Checklist en expediente.', 36),
-            Comprobante: corto('No obligatorio aquí.', 28),
-            'OCR domicilio': corto('Match padrón si aplica.', 36),
-            'Borrador cotización': corto('En bandeja asesor.', 32),
-            Beneficiarios: corto('Confirmar en sala.', 28),
-            'Próximo paso': corto('Cierre o firma digital.', 36),
-            'Ofertas personalizadas': corto(ofertaCrossSellBreve(op), 56),
-            Documentación:
-              "<a href='" +
-              DOC_URL_IDENTIFICACION.replace(/&/g, '&amp;') +
-              "' target='_blank' rel='noopener noreferrer'>" +
-              escapeHtml(docLabel) +
-              '</a>'
-          });
-          return filas;
-        }
-        if (op === 'tarjetas') {
-          Object.assign(filas, {
-            Vehículo: corto('Sedán compacto.', 24),
-            Uso: corto('Particular.', 20),
-            Zona: corto('Metrópoli.', 20),
-            'Clasificación riesgo': corto('Estándar preferente.', 32),
-            Licencia: corto('~8 años ref.', 22),
-            Siniestralidad: corto('Sin total declarado.', 28),
-            'Cobertura sugerida': corto('Amplia + RC.', 24),
-            Telemática: corto('Opcional: app.', 24),
-            'Canal de captación': corto('Tótem digital.', 28),
-            'Sincronización CRM': corto('Lead automático.', 28),
-            'ID de interacción': corto(idInt, 22),
-            Core: corto('Si hay póliza: enriquecer.', 36),
-            Precarga: corto('Nombre, contacto OK.', 32),
-            'Enfoque en sala': corto('Inspección + cobro.', 32),
-            'OCR tarjeta / factura': corto('Campos clave OK.', 28),
-            Titularidad: corto('~98% coincidencia.', 28),
-            'Taller convenio': corto('Red disponible.', 24),
-            'Ofertas personalizadas': corto(ofertaCrossSellBreve(op), 56),
-            Documentación:
-              "<a href='" +
-              DOC_URL_IDENTIFICACION.replace(/&/g, '&amp;') +
-              "' target='_blank' rel='noopener noreferrer'>" +
-              escapeHtml(docLabel) +
-              '</a>'
-          });
-          return filas;
-        }
-        if (op === 'inversiones') {
-          Object.assign(filas, {
-            Inmueble: corto('Habitacional.', 20),
-            Metros: corto('120-150 m2.', 20),
-            Antigüedad: corto('Media.', 16),
-            'Reconstrucción ref': corto('3.5 MMXN ref.', 24),
-            'Paquete sugerido': corto('Multi + sismo + contenido.', 40),
-            'Canal de captación': corto('Tótem digital.', 28),
-            'Sincronización CRM': corto('Lead automático.', 28),
-            'ID de interacción': corto(idInt, 22),
-            Catastro: corto('Riesgo zona media.', 28),
-            Contratante: corto('Datos en cola.', 24),
-            'Rol del ejecutivo': corto('Coberturas + exclusiones.', 40),
-            'OCR comprobante': corto('Entidad OK.', 20),
-            'Segunda vivienda': corto('Si aplica: revisión.', 32),
-            Inspección: corto('Remota disponible.', 28),
-            Gravamen: corto('Validar hipoteca si hay.', 36),
-            Renovación: corto('Endoso mismo expediente.', 36),
-            'Ofertas personalizadas': corto(ofertaCrossSellBreve(op), 56),
-            Documentación:
-              "<a href='" +
-              DOC_URL_IDENTIFICACION.replace(/&/g, '&amp;') +
-              "' target='_blank' rel='noopener noreferrer'>" +
-              escapeHtml(docLabel) +
-              '</a>'
-          });
-          return filas;
-        }
-        Object.assign(filas, {
-          Contexto: corto('Patrimonial. CRM OK.', 32),
-          'ID de interacción': corto(idInt, 22),
-          'Ofertas personalizadas': corto(ofertaCrossSellBreve(op), 56),
-          Documentación:
-            "<a href='" +
-            DOC_URL_IDENTIFICACION.replace(/&/g, '&amp;') +
-            "' target='_blank' rel='noopener noreferrer'>" +
-            escapeHtml(docLabel) +
-            '</a>'
-        });
-        return filas;
-      }
-      
-      /**
-       * POST enqueue Filavirtual: muchas filas breves (estilo referencia que encolaba bien).
-       */
-      function construirPayloadEnqueueTurno() {
-        var firstName     = String(formNombre   || '').trim();
-        var lastName      = String(formApellido || '').trim();
-        var cedulaIdentidad = String(formDni    || '').trim();
-        var email         = String(formEmail    || '').trim();
-        var phone         = soloDigitosTelefono(formTelefono) || '0000000000';
-        var op            = opcionTramiteJourney || 'prestamos';
+      const PASOS_ANALISIS_UI = [
+        { titulo: 'Comportamiento digital', detalle: 'Evaluación de onboarding y señales digitales.' },
+        { titulo: 'Scoring', detalle: 'Puntuación y mejor oferta disponible.' },
+        { titulo: 'Sugerencia de canal', detalle: 'Priorización del canal de atención.' },
+        { titulo: 'Calcular prioridad', detalle: 'Analisis del estado actual de la sucursal comparado con el cliente.' }
+      ];
 
-        return {
-          firstName,
-          lastName,
-          cedulaIdentidad,
-          email,
-          phone,
-          extraFields: [armarExtraFieldsFilasCortas(op, firstName, lastName, cedulaIdentidad, email, phone)],
-          customerExtraFields: [{ showable: [{ in: 'workstation', format: 'both' }] }]
-        };
+      // Objeto con nombres y DNI
+      const usuarios = {
+        'Jorge': { dni: '29328703', apellido: 'Macera' },
+        'Joaquin': { dni: '33877733', apellido: 'Zolio' },
+        'Gustavo': { dni: '33689449', apellido: 'Lauria' },
+        'Martin': { dni: '34982731', apellido: 'Fernandez' },
+        'Alberto': { dni: '34982731', apellido: 'Villalpando' },
+        'Juanma S': { dni: '36592634', apellido: 'Suarez' },
+        'Juanma L': { dni: '38004650', apellido: 'Liza' },
+        'Andrea': { dni: '1020799451', apellido: 'Usuario' },
+        'Natalia': { dni: '1072655461', apellido: 'Pantoja' },
+        'Aldo': { dni: '5215610238745', apellido: 'Romero' },
+        'Eduardo': { dni: '33333333', apellido: 'Corona' },
+        'Manuel': { dni: '12345678', apellido: 'Ormachea' },
+        'Juanca': { dni: '1090378365', apellido: 'Soto' },
+        'Romy': { dni: '35975313', apellido: 'Cardenas' },
+        'demo': { dni: '12345678', apellido: 'Demo' }
+      };
+      
+      // Función para obtener el usuario actual
+      function getUsuarioActual() {
+        const selector = document.getElementById('nombreSelector');
+        const nombreSeleccionado = selector ? selector.value : 'Jorge';
+        return usuarios[nombreSeleccionado] || usuarios['Jorge'];
       }
       
-      /** prestamos | tarjetas | inversiones â€” último trámite elegido (para cola de videollamada). */
-      let opcionTramiteJourney = null;
-      let analisisCompletado = false;
-      let recomendacionVideollamada = false;
-      let messageText = null;
+      // Función para obtener el nombre actual
+      function getNombreActual() {
+        const selector = document.getElementById('nombreSelector');
+        return selector ? selector.value : 'Jorge';
+      }
       
+      // Manejar cambio de nombre en el selector
+      const nombreSelector = document.getElementById('nombreSelector');
+      const saludoNombre = document.getElementById('saludoNombre');
+      
+      if (nombreSelector && saludoNombre) {
+        nombreSelector.addEventListener('change', function() {
+          const nombreSeleccionado = this.value;
+          saludoNombre.textContent = `¡Hola, ${nombreSeleccionado}!`;
+        });
+        
+        // Inicializar saludo con el valor por defecto
+        saludoNombre.textContent = `¡Hola, ${nombreSelector.value}!`;
+      }
+
       // Elementos del DOM
-      const screenForm = document.getElementById('screenForm');
-      const screenOpciones = document.getElementById('screenOpciones');
-      const screenConfirmacion = document.getElementById('screenConfirmacion');
-      const formDatos = document.getElementById('formDatos');
-      const btnContinuarForm = document.getElementById('btnContinuarForm');
-      const opcionesGrid = document.getElementById('opcionesGrid');
+      const btnSolicitarAtencion = document.getElementById('btnSolicitarAtencion');
       const atencionSection = document.getElementById('atencionSection');
       const stepsContainer = document.getElementById('stepsContainer');
       const summarySection = document.getElementById('summarySection');
       const summaryContent = document.getElementById('summaryContent');
-      const logContainer = document.querySelector('.log-container');
-      const screenExpedientePendiente = document.getElementById('screenExpedientePendiente');
-      const screenEleccionInicial = document.getElementById('screenEleccionInicial');
-      
-      function mostrarPantallaExpedienteDesactualizado() {
-        if (screenEleccionInicial) screenEleccionInicial.style.display = 'none';
-        if (screenAgendaCita) screenAgendaCita.style.display = 'none';
-        if (screenForm) screenForm.style.display = 'none';
-        if (screenOpciones) screenOpciones.classList.remove('active');
-        screenConfirmacion.classList.remove('active');
-        const waMsg = 'Quiero completar mi expediente de Banamex, mi folio es: ' + FOLIO_EXPEDIENTE_INBURSA;
-        const btnWa = document.getElementById('btnWhatsappExpediente');
-        if (btnWa) btnWa.href = 'https://wa.me/' + WA_EXPEDIENTE_E164 + '?text=' + encodeURIComponent(waMsg);
-        if (screenExpedientePendiente) screenExpedientePendiente.classList.add('active');
+      const opcionesAtencionSection = document.getElementById('opcionesAtencionSection');
+      const opcionesAtencionContainer = document.getElementById('opcionesAtencionContainer');
+      const resultadoAtencionApp = document.getElementById('resultadoAtencionApp');
+
+      // Verificar que todos los elementos existan
+      if (!btnSolicitarAtencion || !atencionSection || !stepsContainer || !summarySection || !summaryContent || !opcionesAtencionSection || !opcionesAtencionContainer || !resultadoAtencionApp) {
+        console.error('Error: No se encontraron todos los elementos del DOM');
+        return;
       }
-      const screenAgendaCita = document.getElementById('screenAgendaCita');
-      const btnEstoyEnSucursal = document.getElementById('btnEstoyEnSucursal');
-      const btnGenerarCita = document.getElementById('btnGenerarCita');
-      const btnVolverAgenda = document.getElementById('btnVolverAgenda');
-      const btnContinuarAgenda = document.getElementById('btnContinuarAgenda');
-      const inputCitaScheduleIdHidden = document.getElementById('citaScheduleIdHidden');
-      const selCitaBranch = document.getElementById('citaBranch');
-      const inputCitaFecha = document.getElementById('citaFecha');
-      const citaSlotsWrap = document.getElementById('citaSlots');
-      const citaAlertAgenda = document.getElementById('citaAlertAgenda');
-      const citaLeyendaAgenda = document.getElementById('citaLeyendaAgenda');
-      
-      let citaSchedulesList = [];
-      let citaSelectedSlot = null;
-      let citaScheduleIdFinal = null;
-      let citaBranchIdFinal = null;
-      /** Timeouts de la consola de agenda (demo sin Journey). */
-      let citaConsolaTimers = [];
-      
-      const CFG_CITAS = window.APP_CONFIG_CITAS || {};
-      
-      function pad2(n) { return String(n).padStart(2, '0'); }
-      
-      function citaSetAlert(type, msg) {
-        if (!citaAlertAgenda) return;
-        citaAlertAgenda.className = 'alert alert-' + type;
-        citaAlertAgenda.textContent = msg;
-        citaAlertAgenda.classList.remove('d-none');
+
+      // DNI fijo a usar
+      const DNI_FIJO = '12345678';
+
+      const DETALLE_EXTRA_FIELDS_DEFAULT = 'El cliente registra un Score crediticio >700. Adicionalmente registro el abandono de un proceso de oboarding digital. Se recomienda ofrecer Prestamo personal';
+      let ultimoDetalleExtraFields = DETALLE_EXTRA_FIELDS_DEFAULT;
+
+      function buildExtraFields(detalle) {
+        return [{
+          showable: [{ in: 'workstation', format: 'both' }],
+          Detalle: detalle
+        }];
       }
-      
-      function citaClearAlert() {
-        if (!citaAlertAgenda) return;
-        citaAlertAgenda.className = 'alert d-none';
-        citaAlertAgenda.textContent = '';
-      }
-      
-      function minutesOffsetFromSuffix(suffix) {
-        const m = suffix.match(/^([+-])(\d{2})(\d{2})$/);
-        if (!m) return 0;
-        const sign = m[1] === '-' ? -1 : 1;
-        return sign * (parseInt(m[2], 10) * 60 + parseInt(m[3], 10));
-      }
-      
-      function buildEndAtLikeStart(startAtStr, addMinutes) {
-        const offsetMatch = startAtStr.match(/([+-]\d{4}|Z)$/);
-        const offsetSuffix = offsetMatch ? offsetMatch[1] : 'Z';
-        const offsetMin = offsetSuffix === 'Z' ? 0 : minutesOffsetFromSuffix(offsetSuffix);
-        const msStart = new Date(startAtStr).getTime();
-        const msEnd = msStart + (addMinutes * 60000);
-        const d = new Date(msEnd + offsetMin * 60000);
-        const Y = d.getUTCFullYear();
-        const M = d.getUTCMonth() + 1;
-        const D = d.getUTCDate();
-        const H = d.getUTCHours();
-        const m = d.getUTCMinutes();
-        const S = d.getUTCSeconds();
-        const p = function(n) { return String(n).padStart(2, '0'); };
-        return Y + '-' + p(M) + '-' + p(D) + 'T' + p(H) + ':' + p(m) + ':' + p(S) + offsetSuffix;
-      }
-      
-      function resetCitaAgendaUi() {
-        citaClearAlert();
-        citaSelectedSlot = null;
-        citaScheduleIdFinal = null;
-        citaBranchIdFinal = null;
-        if (inputCitaScheduleIdHidden) inputCitaScheduleIdHidden.value = '';
-        if (selCitaBranch) {
-          selCitaBranch.innerHTML = '<option value="">Selecciona sucursal...</option>';
-          selCitaBranch.disabled = true;
-        }
-        if (inputCitaFecha) {
-          inputCitaFecha.value = '';
-          inputCitaFecha.disabled = true;
-        }
-        if (citaSlotsWrap) citaSlotsWrap.innerHTML = '';
-        if (btnContinuarAgenda) btnContinuarAgenda.disabled = true;
-        if (citaLeyendaAgenda) citaLeyendaAgenda.textContent = 'Seleccione sede y fecha para ver horarios.';
-      }
-      
-      /** Busca agenda de citas por nombre (prioridad: Seguro de vida, retiro voluntario demo, tarjeta crédito, hipotecario). */
-      function encontrarAgendaParaCita(list) {
-        if (!Array.isArray(list)) return null;
-        function norm(s) {
-          return String(s || '')
-            .toLowerCase()
-            .normalize('NFD')
-            .replace(/[\u0300-\u036f]/g, '');
-        }
-        var matchers = [
-          function(n) { return n.indexOf('prestamo') !== -1 && n.indexOf('personal') !== -1; },
-          function(n) { return n.indexOf('retiro') !== -1 && n.indexOf('volunt') !== -1; },
-          function(n) { return n.indexOf('tarjeta') !== -1 && n.indexOf('credito') !== -1; },
-          function(n) {
-            return n.indexOf('hipotecario') !== -1 || (n.indexOf('hipoteca') !== -1 && n.indexOf('credito') !== -1);
-          }
-        ];
-        var mi, mj, n;
-        for (mi = 0; mi < matchers.length; mi++) {
-          for (mj = 0; mj < list.length; mj++) {
-            n = norm(list[mj].name);
-            if (matchers[mi](n)) return list[mj];
-          }
-        }
-        return null;
-      }
-      
-      function rellenarSedesParaAgenda(sched) {
-        selCitaBranch.innerHTML = '<option value="">Selecciona sucursal...</option>';
-        if (!sched || !Array.isArray(sched.branches)) {
-          citaSetAlert('danger', 'La agenda seleccionada no tiene sucursales asociadas.');
-          selCitaBranch.disabled = true;
-          return;
-        }
-        var seen = new Set();
-        sched.branches.forEach(function(b) {
-          if (!seen.has(b.id)) {
-            selCitaBranch.insertAdjacentHTML('beforeend', '<option value="' + b.id + '">' + b.name + '</option>');
-            seen.add(b.id);
-          }
-        });
-        selCitaBranch.disabled = false;
-        citaClearAlert();
-      }
-      
-      /** Muestra la agenda después de elegir trámite (solo flujo Generar cita). */
-      function mostrarPantallaAgenda() {
-        if (screenEleccionInicial) screenEleccionInicial.style.display = 'none';
-        if (screenForm) screenForm.style.display = 'none';
-        if (screenOpciones) screenOpciones.classList.remove('active');
-        if (screenAgendaCita) screenAgendaCita.style.display = 'block';
-        resetCitaAgendaUi();
-        iniciarConsolaAgendaDinamica();
-        loadCitaSchedules();
-      }
-      
-      /** Volver desde la agenda a la pantalla de los tres trámites (sin salir del flujo cita). */
-      function volverDesdeAgendaATramites() {
-        ocultarConsolaAgendaEstatica();
-        citaSchedulesList = [];
-        resetCitaAgendaUi();
-        if (screenAgendaCita) screenAgendaCita.style.display = 'none';
-        if (screenOpciones) screenOpciones.classList.add('active');
-      }
-      
-      function citaConsolaClearTimers() {
-        citaConsolaTimers.forEach(function(t) { clearTimeout(t); });
-        citaConsolaTimers = [];
-      }
-      
-      function citaConsolaRemoverBloqueConsultaHorarios() {
-        var el2 = document.getElementById('citaConsolaBloque2');
-        if (el2) el2.remove();
-      }
-      
-      function citaConsolaAgregarBloqueConsultaHorarios() {
-        if (!stepsContainer || document.getElementById('citaConsolaBloque2')) return;
-        var div = document.createElement('div');
-        div.className = 'step-item completed';
-        div.id = 'citaConsolaBloque2';
-        div.innerHTML =
-          '<div class="step-title">Score_table</div>' +
-          '<div class="step-output-content">' +
-          '<em style="color: #ffffff;">Consultando horarios en esa fecha.</em>' +
-          '</div>';
-        stepsContainer.appendChild(div);
-      }
-      
-      /** Consola derecha (mismo estilo que Journey): paso 1 al entrar; paso 2 al consultar horarios (sede/fecha). */
-      function iniciarConsolaAgendaDinamica() {
-        citaConsolaClearTimers();
-        if (summarySection) summarySection.style.display = 'none';
-        if (summaryContent) summaryContent.textContent = '';
-        if (logContainer) logContainer.classList.add('visible');
-        if (atencionSection) {
-          atencionSection.style.display = 'block';
-          atencionSection.classList.add('active');
-        }
-        if (stepsContainer) {
-          stepsContainer.innerHTML =
-            '<div class="step-item processing" id="citaConsolaBloque1">' +
-            '<div class="step-title">Checkonboardingcondatos</div>' +
-            '<div class="step-output-content">' +
-            '<em style="color: #ffffff;">Ejecutando herramienta...</em>' +
-            '</div></div>';
-        }
-        var tid = setTimeout(function() {
-          var b1 = document.getElementById('citaConsolaBloque1');
-          if (b1) {
-            b1.className = 'step-item completed';
-            var out = b1.querySelector('.step-output-content');
-            if (out) {
-              out.innerHTML = '<em style="color: #ffffff;">Herramienta ejecutada correctamente</em>';
-            }
-          }
-        }, 2000);
-        citaConsolaTimers.push(tid);
-      }
-      
-      function ocultarConsolaAgendaEstatica() {
-        citaConsolaClearTimers();
-        if (logContainer) logContainer.classList.remove('visible');
-        if (atencionSection) {
-          atencionSection.classList.remove('active');
-          atencionSection.style.display = 'none';
-        }
-        if (summarySection) summarySection.style.display = 'none';
-        if (stepsContainer) stepsContainer.innerHTML = '';
-        if (summaryContent) summaryContent.textContent = '';
-      }
-      
-      async function loadCitaSchedules() {
-        const SVC_LIST = CFG_CITAS.SVC_LIST || 'https://citas2.debmedia.com/api/v2/reducedSchedules';
-        const API_TOKEN = CFG_CITAS.API_TOKEN || '';
-        try {
-          const res = await fetch(SVC_LIST, { headers: { 'x-api-token': API_TOKEN } });
-          if (!res.ok) throw new Error('No se pudieron obtener las agendas (' + res.status + ')');
-          citaSchedulesList = await res.json();
-          var schedCita = encontrarAgendaParaCita(citaSchedulesList);
-          if (!schedCita) {
-            citaSetAlert('danger', 'No se encontró una agenda de citas compatible (Seguro de vida, Seguro de auto, Seguro de vivienda o agenda demo).');
-            return;
-          }
-          if (inputCitaScheduleIdHidden) inputCitaScheduleIdHidden.value = String(schedCita.id);
-          rellenarSedesParaAgenda(schedCita);
-          const today = new Date();
-          const ymd = function(d) { return d.getFullYear() + '-' + pad2(d.getMonth() + 1) + '-' + pad2(d.getDate()); };
-          if (inputCitaFecha) {
-            inputCitaFecha.min = ymd(today);
-            inputCitaFecha.disabled = false;
-          }
-          selCitaBranch.onchange = handleCitaBranchOrDateChange;
-          inputCitaFecha.onchange = handleCitaBranchOrDateChange;
-        } catch (err) {
-          citaSetAlert('danger', err.message || String(err));
-        }
-      }
-      
-      async function handleCitaBranchOrDateChange() {
-        citaClearAlert();
-        citaSlotsWrap.innerHTML = '';
-        citaSelectedSlot = null;
-        if (btnContinuarAgenda) btnContinuarAgenda.disabled = true;
-        const schedId = inputCitaScheduleIdHidden ? inputCitaScheduleIdHidden.value : '';
-        const branchId = selCitaBranch.value;
-        const dateStr = inputCitaFecha.value;
-        if (!schedId || !branchId || !dateStr) {
-          citaConsolaRemoverBloqueConsultaHorarios();
-          return;
-        }
-        citaConsolaRemoverBloqueConsultaHorarios();
-        citaConsolaAgregarBloqueConsultaHorarios();
-        const AVAIL_BASE = CFG_CITAS.AVAIL_BASE || 'https://citas2.debmedia.com/api/v2/schedules';
-        const API_TOKEN = CFG_CITAS.API_TOKEN || '';
-        try {
-          const url = AVAIL_BASE + '/' + encodeURIComponent(schedId) + '/branch/' + encodeURIComponent(branchId) + '/availability?strDate=' + encodeURIComponent(dateStr);
-          const res = await fetch(url, { headers: { 'x-api-token': API_TOKEN } });
-          if (!res.ok) throw new Error('No se pudo obtener disponibilidad (' + res.status + ')');
-          const data = await res.json();
-          const slots = Array.isArray(data) ? data : (Array.isArray(data.slots) ? data.slots : []);
-          if (slots.length === 0) {
-            citaSetAlert('info', 'No hay horarios disponibles para la fecha seleccionada.');
-            return;
-          }
-          slots.forEach(function(slot) {
-            const hora = slot.zonedStartDate.substring(11, 16);
-            const btn = document.createElement('button');
-            btn.type = 'button';
-            btn.className = 'cita-slot-btn';
-            btn.textContent = hora;
-            btn.addEventListener('click', function() {
-              citaSlotsWrap.querySelectorAll('.cita-slot-btn').forEach(function(b) { b.classList.remove('active'); });
-              btn.classList.add('active');
-              citaSelectedSlot = { startAt: slot.zonedStartDate, defaultDuration: slot.defaultDuration || 0 };
-              if (btnContinuarAgenda) btnContinuarAgenda.disabled = false;
-            });
-            citaSlotsWrap.appendChild(btn);
-          });
-          if (citaLeyendaAgenda) citaLeyendaAgenda.textContent = 'Seleccione un horario y pulse Continuar.';
-        } catch (err) {
-          citaSetAlert('danger', err.message || String(err));
-        }
-      }
-      
-      async function crearCitaConApiInbursa() {
-        const APPT_URL = CFG_CITAS.APPT_URL || 'https://citas2.debmedia.com/api/v2/appointments';
-        const API_TOKEN = CFG_CITAS.API_TOKEN || '';
-        if (!citaSelectedSlot || !citaScheduleIdFinal || !citaBranchIdFinal) {
-          throw new Error('Datos de cita incompletos.');
-        }
-        const startAt = citaSelectedSlot.startAt;
-        const endAt = buildEndAtLikeStart(startAt, citaSelectedSlot.defaultDuration || 0);
-        const body = {
-          branch: { id: Number(citaBranchIdFinal) },
-          schedule: { id: Number(citaScheduleIdFinal) },
-          startAt: startAt,
-          endAt: endAt,
-          customer: {
-            firstName: formNombre,
-            lastName: formApellido,
-            cedulaIdentidad: String(formDni || '').trim(),
-            phone: soloDigitosTelefono(formTelefono) || '0000000000',
-            email: (formEmail || '').trim() || undefined
-          },
-          reason: 'Cita Banamex — ' + etiquetaTramiteParaMensaje(opcionTramiteJourney || 'prestamos')
+
+      function buildDatosEnqueue(usuarioActual, nombreActual) {
+        return {
+          firstName: nombreActual,
+          lastName: usuarioActual.apellido,
+          dni: usuarioActual.dni,
+          email: 'mail@mail.com',
+   
+          extraFields: buildExtraFields(ultimoDetalleExtraFields || DETALLE_EXTRA_FIELDS_DEFAULT)
         };
-        const res = await fetch(APPT_URL, {
-          method: 'POST',
-          headers: { 'x-api-token': API_TOKEN, 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
-        });
-        const out = await res.json().catch(function() { return {}; });
-        if (!res.ok) throw new Error(out.message || 'Error al crear la cita (' + res.status + ')');
       }
-      
-      if (btnEstoyEnSucursal) {
-        btnEstoyEnSucursal.addEventListener('click', function() {
-          pasoInicialOrigen = 'sucursal';
-          citaSelectedSlot = null;
-          citaScheduleIdFinal = null;
-          citaBranchIdFinal = null;
-          if (screenEleccionInicial) screenEleccionInicial.style.display = 'none';
-          if (screenAgendaCita) screenAgendaCita.style.display = 'none';
-          if (screenForm) screenForm.style.display = 'block';
-        });
-      }
-      if (btnGenerarCita) {
-        btnGenerarCita.addEventListener('click', function() {
-          pasoInicialOrigen = 'cita';
-          citaSelectedSlot = null;
-          citaScheduleIdFinal = null;
-          citaBranchIdFinal = null;
-          if (screenEleccionInicial) screenEleccionInicial.style.display = 'none';
-          if (screenAgendaCita) screenAgendaCita.style.display = 'none';
-          if (screenForm) screenForm.style.display = 'block';
-        });
-      }
-      if (btnVolverAgenda) {
-        btnVolverAgenda.addEventListener('click', function() {
-          volverDesdeAgendaATramites();
-        });
-      }
-      if (btnContinuarAgenda) {
-        btnContinuarAgenda.addEventListener('click', async function() {
-          if (!citaSelectedSlot) {
-            citaSetAlert('danger', 'Seleccione un horario disponible.');
-            return;
-          }
-          citaScheduleIdFinal = inputCitaScheduleIdHidden ? inputCitaScheduleIdHidden.value : '';
-          citaBranchIdFinal = selCitaBranch.value;
-          if (!citaScheduleIdFinal || !citaBranchIdFinal) {
-            citaSetAlert('danger', 'Seleccione servicio, sede y fecha.');
-            return;
-          }
-          btnContinuarAgenda.disabled = true;
-          try {
-            await crearCitaConApiInbursa();
-            if (screenAgendaCita) screenAgendaCita.style.display = 'none';
-            const op = opcionTramiteJourney || 'prestamos';
-            await llamarAgenteConOpcionTotem(op);
-          } catch (err) {
-            alert(err.message || 'No se pudo continuar.');
-          } finally {
-            btnContinuarAgenda.disabled = false;
-          }
-        });
-      }
-      
-      // Validar y enviar formulario - Continuar
-      formDatos.addEventListener('submit', async function(e) {
+
+      // Event listener para el botón "Estoy en la sucursal"
+      btnSolicitarAtencion.addEventListener('click', (e) => {
         e.preventDefault();
+        e.stopPropagation();
         
-        const nombre = (document.getElementById('inputNombre').value || '').trim();
-        const apellido = (document.getElementById('inputApellido').value || '').trim();
-        const dni = (document.getElementById('inputDni').value || '').trim();
-        const email = (document.getElementById('inputEmail').value || '').trim();
-        const telefono = soloDigitosTelefono(document.getElementById('inputTelefono').value || '');
+        // Mostrar el menú de opciones (el botón ya está en el header)
+        menuOpcionesPresencial.style.display = 'block';
         
-        // Ocultar errores previos
-        ['errorNombre', 'errorApellido', 'errorDni', 'errorEmail', 'errorTelefono'].forEach(id => {
-          const el = document.getElementById(id);
-          if (el) { el.style.display = 'none'; el.textContent = ''; }
-        });
-        
-        let valid = true;
-        if (!nombre) {
-          const err = document.getElementById('errorNombre');
-          if (err) { err.textContent = 'Ingrese su nombre'; err.style.display = 'block'; }
-          valid = false;
-        }
-        if (!apellido) {
-          const err = document.getElementById('errorApellido');
-          if (err) { err.textContent = 'Ingrese su apellido'; err.style.display = 'block'; }
-          valid = false;
-        }
-        if (!dni) {
-          const err = document.getElementById('errorDni');
-          if (err) { err.textContent = 'Ingrese su DNI'; err.style.display = 'block'; }
-          valid = false;
-        }
-        if (!email) {
-          const err = document.getElementById('errorEmail');
-          if (err) { err.textContent = 'Ingrese su email'; err.style.display = 'block'; }
-          valid = false;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          const err = document.getElementById('errorEmail');
-          if (err) { err.textContent = 'Email no válido'; err.style.display = 'block'; }
-          valid = false;
-        }
-        if (!telefono || telefono.length < 10) {
-          const err = document.getElementById('errorTelefono');
-          if (err) {
-            err.textContent = telefono ? 'Teléfono: al menos 10 dígitos' : 'Ingrese su teléfono';
-            err.style.display = 'block';
-          }
-          valid = false;
-        }
-        
-        if (!valid) return;
-        
-        formNombre = nombre;
-        formApellido = apellido;
-        formDni = dni;
-        formEmail = email;
-        formTelefono = telefono;
-        
-        // Mostrar pantalla de opciones (productos Banca). La cita se agenda después de elegir trámite (flujo Generar cita).
-        mostrarPantallaOpciones();
+        // Scroll al menú
+        setTimeout(() => {
+          menuOpcionesPresencial.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
       });
       
-      /** Texto enviado al Journey según clave interna (colas/API siguen usando prestamos|tarjetas|inversiones). */
-      function etiquetaTramiteParaMensaje(opcion) {
-        if (opcion === 'prestamos') return 'Solicitud de crédito';
-        if (opcion === 'tarjetas') return 'Préstamo personal';
-        if (opcion === 'inversiones') return 'Seguros Banamex';
-        return String(opcion || '');
-      }
+      // Event listeners para las opciones del menú
+      btnOpcionPrestamos.addEventListener('click', async () => {
+        await llamarAgenteConOpcionDesdeMenu('prestamos', btnOpcionPrestamos);
+      });
       
-      // Mostrar pantalla de opciones (Seguro de vida, Seguro de auto, Seguro de vivienda)
-      function mostrarPantallaOpciones() {
-        opcionTramiteJourney = null;
-        if (screenForm) screenForm.style.display = 'none';
-        if (screenAgendaCita) screenAgendaCita.style.display = 'none';
-        if (screenEleccionInicial) screenEleccionInicial.style.display = 'none';
-        if (screenExpedientePendiente) screenExpedientePendiente.classList.remove('active');
-        screenOpciones.classList.add('active');
-        
-        opcionesGrid.innerHTML = '';
-        
-        // Cambiar el título y subtítulo
-        const screenOpcionesTitle = screenOpciones.querySelector('h2');
-        const screenOpcionesSubtitle = screenOpciones.querySelector('.subtitle');
-        if (screenOpcionesTitle) {
-          screenOpcionesTitle.textContent = '¿Cómo podemos ayudarlo?';
-        }
-        if (screenOpcionesSubtitle) {
-          screenOpcionesSubtitle.textContent = 'Seleccione el servicio que necesita';
-        }
-        
-        // Solicitud de crédito
-        const cardPrestamos = document.createElement('div');
-        cardPrestamos.className = 'opcion-card';
-        cardPrestamos.style.cssText = 'cursor: pointer; border-color: #003B5C; background: linear-gradient(135deg, #eef5fb 0%, #cce0ee 100%);';
-        cardPrestamos.innerHTML = `
-          <div class="opcion-icon" style="color: #003B5C;">
-            <i class="bi bi-credit-card-fill"></i>
-          </div>
-          <div class="opcion-title">Solicitud de crédito</div>
-        `;
-        cardPrestamos.addEventListener('click', async () => {
-          if (pasoInicialOrigen === 'cita') {
-            opcionTramiteJourney = 'prestamos';
-            mostrarPantallaAgenda();
-            return;
-          }
-          await llamarAgenteConOpcionTotem('prestamos');
-        });
-        opcionesGrid.appendChild(cardPrestamos);
-        
-        // Préstamo personal
-        const cardTarjetas = document.createElement('div');
-        cardTarjetas.className = 'opcion-card';
-        cardTarjetas.style.cssText = 'cursor: pointer; border-color: #C8102E; background: linear-gradient(135deg, #ffffff 0%, #fce8ea 100%);';
-        cardTarjetas.innerHTML = `
-          <div class="opcion-icon" style="color: #C8102E;">
-            <i class="bi bi-cash-coin"></i>
-          </div>
-          <div class="opcion-title">Préstamo personal</div>
-        `;
-        cardTarjetas.addEventListener('click', async () => {
-          if (pasoInicialOrigen === 'cita') {
-            opcionTramiteJourney = 'tarjetas';
-            mostrarPantallaAgenda();
-            return;
-          }
-          await llamarAgenteConOpcionTotem('tarjetas');
-        });
-        opcionesGrid.appendChild(cardTarjetas);
-        
-        // Seguros Banamex
-        const cardInversiones = document.createElement('div');
-        cardInversiones.className = 'opcion-card';
-        cardInversiones.style.cssText = 'cursor: pointer; border-color: #003B5C; background: linear-gradient(135deg, #eef5fb 0%, #cce0ee 100%);';
-        cardInversiones.innerHTML = `
-          <div class="opcion-icon" style="color: #003B5C;">
-            <i class="bi bi-umbrella-fill"></i>
-          </div>
-          <div class="opcion-title opcion-title--multiline">Seguros Banamex</div>
-        `;
-        cardInversiones.addEventListener('click', async () => {
-          if (pasoInicialOrigen === 'cita') {
-            opcionTramiteJourney = 'inversiones';
-            mostrarPantallaAgenda();
-            return;
-          }
-          await llamarAgenteConOpcionTotem('inversiones');
-        });
-        opcionesGrid.appendChild(cardInversiones);
-      }
+      btnOpcionTarjetas.addEventListener('click', async () => {
+        await llamarAgenteConOpcionDesdeMenu('tarjetas', btnOpcionTarjetas);
+      });
       
-      // Mostrar opciones presenciales en el tótem
-      function mostrarOpcionesPresencialTotem() {
-        const opcionesPresencialContainer = document.getElementById('opcionesPresencialContainerTotem');
-        if (!opcionesPresencialContainer) return;
-        
-        // Si ya está visible, ocultarlo
-        if (opcionesPresencialContainer.style.display === 'block') {
-          opcionesPresencialContainer.style.display = 'none';
-          return;
-        }
-        
-        // Mostrar opciones
-        opcionesPresencialContainer.innerHTML = `
-          <div style="width: 100%; max-width: 500px; margin: 0 auto;">
-            <h3 style="font-size: 1.3rem; font-weight: 700; color: var(--numia-text); margin-bottom: 1.5rem; text-align: center;">¿Cómo podemos ayudarlo?</h3>
-            <div style="display: grid; grid-template-columns: 1fr; gap: 1rem;">
-              <div class="opcion-card" style="cursor: pointer; border-color: #003B5C; background: linear-gradient(135deg, #eef5fb 0%, #cce0ee 100%);" data-opcion="prestamos">
-                <div class="opcion-icon" style="color: #003B5C;">
-                  <i class="bi bi-credit-card-fill"></i>
-                </div>
-                <div class="opcion-title">Solicitud de crédito</div>
-              </div>
-              <div class="opcion-card" style="cursor: pointer; border-color: #C8102E; background: linear-gradient(135deg, #ffffff 0%, #fce8ea 100%);" data-opcion="tarjetas">
-                <div class="opcion-icon" style="color: #C8102E;">
-                  <i class="bi bi-cash-coin"></i>
-                </div>
-                <div class="opcion-title">Préstamo personal</div>
-              </div>
-              <div class="opcion-card" style="cursor: pointer; border-color: #003B5C; background: linear-gradient(135deg, #eef5fb 0%, #cce0ee 100%);" data-opcion="inversiones">
-                <div class="opcion-icon" style="color: #003B5C;">
-                  <i class="bi bi-umbrella-fill"></i>
-                </div>
-                <div class="opcion-title opcion-title--multiline">Seguros Banamex</div>
-              </div>
-            </div>
-          </div>
-        `;
-        opcionesPresencialContainer.style.display = 'block';
-        
-        // Agregar event listeners a las tarjetas
-        const cardsOpcion = opcionesPresencialContainer.querySelectorAll('[data-opcion]');
-        cardsOpcion.forEach(card => {
-          card.addEventListener('click', async () => {
-            const opcion = card.getAttribute('data-opcion');
-            await llamarAgenteConOpcionTotem(opcion);
-          });
-        });
-      }
+      btnOpcionInversiones.addEventListener('click', async () => {
+        await llamarAgenteConOpcionDesdeMenu('inversiones', btnOpcionInversiones);
+      });
       
-      async function llamarAgenteConOpcionTotem(opcion) {
+      // Función para llamar al agente desde el menú inicial
+      async function llamarAgenteConOpcionDesdeMenu(opcion, btn) {
         try {
-          opcionTramiteJourney = opcion;
-          // Ocultar pantalla de opciones y mostrar loading
-          screenOpciones.classList.remove('active');
+          btn.disabled = true;
+          if (opcion === 'inversiones') {
+            try {
+              window.open('app-inversion-bdb.html#cdt', '_blank');
+            } catch (eOpen) {}
+          }
+          btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Conectando...';
           
-          // Mostrar log
+          // Ocultar el menú
+          menuOpcionesPresencial.style.display = 'none';
+          
+          const dni = DNI_FIJO;
+          
+          // Construir mensaje con la opción seleccionada
+          const opcionesTexto = {
+            prestamos: 'Préstamos',
+            tarjetas: 'Tarjetas de crédito',
+            inversiones: 'Inversiones'
+          };
+          const mensaje = `Necesito atención sobre ${opcionesTexto[opcion]}. DNI: ${dni}`;
+          
+          // Mostrar el contenedor de logs
+          const logContainer = document.querySelector('.log-container');
           if (logContainer) {
             logContainer.classList.add('visible');
           }
           
+          // Mostrar la sección explícitamente
           atencionSection.style.display = 'block';
           atencionSection.classList.add('active');
-          stepsContainer.innerHTML = '<div style="color: #ffffff;"><i class="bi bi-hourglass-split me-2"></i>Conectando con el asistente...</div>';
-          
-          // Llamar al agente con los datos del formulario y la opción seleccionada
-          const tel = soloDigitosTelefono(formTelefono);
-          const mensaje =
-            'Trámite: ' + etiquetaTramiteParaMensaje(opcion) + '. ' +
-            'Nombre: ' + formNombre + '. Apellido: ' + formApellido + '. ' +
-            'DNI del cliente (documento numérico capturado en tótem): ' + formDni + '. ' +
-            'El mismo valor como CURP o ID si el sistema lo exige en otro formato: ' + formDni + '. ' +
-            'Email: ' + formEmail + '. Teléfono: ' + tel + '.';
-          
-          const response = await fetch(JOURNEY_API_URL, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-api-key': JOURNEY_API_KEY,
-              'Origin': 'journeybuilder.numia.co'
-            },
-            body: JSON.stringify({
-              input_value: mensaje,
-              input_type: 'chat'
-            })
+
+          summarySection.style.display = 'none';
+          summaryContent.innerHTML = '';
+
+          const pasosInicio = Date.now();
+          const delayPaso = 800;
+          const nPasos = PASOS_ANALISIS_UI.length;
+          const pasosAnimacionMs = nPasos * delayPaso + 500;
+
+          stepsContainer.innerHTML = '';
+          stepsContainer.style.display = 'block';
+          stepsContainer.style.visibility = 'visible';
+          stepsContainer.style.opacity = '1';
+
+          PASOS_ANALISIS_UI.forEach((paso, index) => {
+            setTimeout(() => {
+              agregarPaso({ name: paso.titulo, output: paso.detalle }, index);
+            }, index * delayPaso);
           });
-          
-          if (!response.ok) {
-            throw new Error(`Error en servidor (${response.status})`);
-          }
-          
-          const data = await response.json();
-          console.log('Respuesta completa de la API:', JSON.stringify(data, null, 2));
-          
-          // Procesar respuesta (similar al código existente)
-          let contents = [];
+
+          setTimeout(() => {
+            const logContent = document.querySelector('.log-content');
+            if (logContent) {
+              logContent.scrollTop = logContent.scrollHeight;
+            }
+          }, 100);
+
           let messageText = null;
-          
-          if (data.outputs && data.outputs.length > 0) {
-            const firstOutput = data.outputs[0];
-            
-            if (firstOutput.outputs && firstOutput.outputs.length > 0) {
-              const innerOutput = firstOutput.outputs[0];
-              
-              if (innerOutput.results?.message?.content_blocks) {
-                innerOutput.results.message.content_blocks.forEach((block) => {
-                  if (block.contents && Array.isArray(block.contents)) {
-                    block.contents.forEach((content) => {
-                      if (content.type === 'tool_use' && content.name) {
-                        contents.push({
-                          type: 'tool_use',
-                          name: content.name,
-                          tool_name: content.name,
-                          tool_input: content.tool_input || content.input,
-                          output: content.output,
-                          duration: content.duration
-                        });
-                      }
-                    });
-                  }
-                });
-              }
-              
+          try {
+            const response = await fetch(JOURNEY_API_URL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': JOURNEY_API_KEY,
+                'Origin': 'journeybuilder.numia.co'
+              },
+              body: JSON.stringify({
+                input_value: mensaje,
+                input_type: 'chat'
+              })
+            });
+
+            if (!response.ok) {
+              throw new Error(`Error en servidor (${response.status})`);
+            }
+
+            const data = await response.json();
+            console.log('Respuesta completa de la API:', JSON.stringify(data, null, 2));
+
+            if (data.outputs?.[0]?.outputs?.[0]) {
+              const innerOutput = data.outputs[0].outputs[0];
               if (innerOutput.artifacts?.message) {
-                messageText = typeof innerOutput.artifacts.message === 'string' 
-                  ? innerOutput.artifacts.message 
+                messageText = typeof innerOutput.artifacts.message === 'string'
+                  ? innerOutput.artifacts.message
                   : innerOutput.artifacts.message.message || JSON.stringify(innerOutput.artifacts.message);
               } else if (innerOutput.outputs?.message?.message) {
                 messageText = innerOutput.outputs.message.message;
@@ -2317,326 +1207,342 @@
                 messageText = innerOutput.results.message.text;
               }
             }
+            console.log('Message text (análisis API):', messageText);
+          } catch (apiErr) {
+            const transcurrido = Date.now() - pasosInicio;
+            await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurrido)); });
+            throw apiErr;
           }
-          
-          // Mostrar pasos (herramientas del Journey)
-          if (contents.length > 0) {
-            stepsContainer.innerHTML = '';
-            contents.forEach((content, index) => {
-              setTimeout(() => {
-                agregarPaso(content, index);
-              }, index * 800);
+
+          const transcurridoFin = Date.now() - pasosInicio;
+          await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurridoFin)); });
+
+          mostrarResumen(messageText || 'No se recibió el texto de análisis de la API.');
+        
+      } catch (err) {
+        console.error('Error completo:', err);
+        // Asegurar que el contenedor de logs esté visible incluso en caso de error
+        const logContainer = document.querySelector('.log-container');
+        if (logContainer) {
+          logContainer.classList.add('visible');
+        }
+        // Asegurar que la sección esté visible incluso en caso de error
+        atencionSection.style.display = 'block';
+        atencionSection.classList.add('active');
+        stepsContainer.innerHTML = `
+          <div class="alert alert-danger">
+            <i class="bi bi-exclamation-triangle me-2"></i>
+            Error al procesar la solicitud: ${err.message}
+            <br><small>Revisa la consola para más detalles.</small>
+          </div>
+        `;
+        } finally {
+          btn.disabled = false;
+          // Restaurar texto del botón según la opción
+          const textosBotones = {
+            prestamos: '<i class="bi bi-cash-coin me-2"></i>Préstamos',
+            tarjetas: '<i class="bi bi-credit-card me-2"></i>Tarjetas de crédito',
+            inversiones: '<i class="bi bi-graph-up-arrow me-2"></i>Inversiones'
+          };
+          btn.innerHTML = textosBotones[opcion];
+        }
+      }
+      
+      function extraerInfoDeObjeto(obj, nivel = 0) {
+        if (nivel > 2) return ''; // Limitar profundidad
+        
+        const lineas = [];
+        
+        // Extraer información útil del objeto
+        if (obj.id) lineas.push(`ID: ${obj.id}`);
+        if (obj.firstName || obj.first_name) lineas.push(`Nombre: ${obj.firstName || obj.first_name}`);
+        if (obj.lastName || obj.last_name) lineas.push(`Apellido: ${obj.lastName || obj.last_name}`);
+        if (obj.dni) lineas.push(`DNI: ${obj.dni}`);
+        if (obj.email) lineas.push(`Email: ${obj.email}`);
+        if (obj.phone || obj.telefono) lineas.push(`Teléfono: ${obj.phone || obj.telefono}`);
+        if (obj.score) lineas.push(`Score: ${obj.score}`);
+        if (obj.status) lineas.push(`Estado: ${obj.status}`);
+        if (obj.ok !== undefined) lineas.push(`Estado: ${obj.ok ? 'OK' : 'Error'}`);
+        if (obj.exists !== undefined) lineas.push(`Existe: ${obj.exists ? 'Sí' : 'No'}`);
+        
+        // Manejar objetos anidados importantes
+        if (obj.customerType && typeof obj.customerType === 'object') {
+          if (obj.customerType.name) lineas.push(`Tipo de cliente: ${obj.customerType.name}`);
+          if (obj.customerType.priority) lineas.push(`Prioridad: ${obj.customerType.priority}`);
+        }
+        
+        if (obj.value && typeof obj.value === 'object') {
+          if (obj.value.segment) lineas.push(`Segmento: ${obj.value.segment}`);
+          if (obj.value.products && Array.isArray(obj.value.products)) {
+            obj.value.products.forEach((product, idx) => {
+              if (product.name) lineas.push(`Producto ${idx + 1}: ${product.name}`);
+              if (product.max_amount) lineas.push(`  - Monto máximo: $${product.max_amount.toLocaleString()}`);
+              if (product.rate_apr) lineas.push(`  - Tasa APR: ${product.rate_apr}%`);
             });
           }
-          
-          // ID/CURP 240696: siempre ofrecer videollamada y presencial (el encolar usa mismo JSON enriquecido que el resto)
-          if (esDniDemoDobleCanal240696()) {
-            if (messageText) {
-              mostrarResumen(messageText);
+        }
+        
+        return lineas.join('\n');
+      }
+      
+      function formatearOutputConversacional(output) {
+        if (!output) return '';
+        
+        let texto = '';
+        
+        // Si es un string, verificar si contiene JSON
+        if (typeof output === 'string') {
+          // Si parece ser JSON (contiene { o [), intentar parsearlo
+          if ((output.includes('{') && output.includes('}')) || (output.includes('[') && output.includes(']'))) {
+            try {
+              // Intentar parsear como JSON
+              const parsed = JSON.parse(output);
+              texto = extraerInfoDeObjeto(parsed);
+              
+              // Si no se extrajo nada útil, buscar campos comunes
+              if (!texto) {
+                texto = parsed.text || parsed.message || parsed.response?.raw || '';
+              }
+            } catch (e) {
+              // Si no es JSON válido pero tiene estructura tipo diccionario Python
+              // Intentar extraer información útil sin parsear
+              const match = output.match(/'(\w+)':\s*([^,}]+)/g);
+              if (match) {
+                const info = [];
+                match.forEach(m => {
+                  const keyMatch = m.match(/'(\w+)':/);
+                  const valueMatch = m.match(/:\s*(.+)/);
+                  if (keyMatch && valueMatch) {
+                    const key = keyMatch[1];
+                    let value = valueMatch[1].trim().replace(/^'|'$/g, '');
+                    
+                    // Solo mostrar campos útiles
+                    if (['id', 'firstName', 'lastName', 'dni', 'email', 'phone', 'name', 'score', 'status'].includes(key)) {
+                      info.push(`${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`);
+                    }
+                  }
+                });
+                texto = info.join('\n');
+              } else {
+                // Si tiene ✅ o mensajes útiles, mantenerlos
+                if (output.includes('✅') || output.includes('Cliente') || output.includes('actualizado')) {
+                  // Extraer solo las líneas útiles, sin el JSON
+                  const lineas = output.split('\n').filter(l => 
+                    l.includes('✅') || 
+                    l.includes('Cliente') || 
+                    l.includes('DNI:') || 
+                    l.includes('Nombre') ||
+                    l.includes('Score') ||
+                    l.includes('actualizado') ||
+                    (!l.includes('{') && !l.includes('}') && !l.includes("'id'") && !l.includes("'firstName'"))
+                  );
+                  texto = lineas.join('\n');
+                } else {
+                  // Si no hay nada útil, no mostrar nada
+                  texto = '';
+                }
+              }
             }
-            recomendacionVideollamada = true;
-            const delayCitaDemo = contents.length > 0 ? contents.length * 800 + 500 : 400;
-            setTimeout(() => {
-              mostrarOpcionesAtencion();
-            }, delayCitaDemo);
+          } else {
+            // Si no parece JSON, usar el texto directamente
+            texto = output;
+          }
+        } 
+        // Si es un objeto, extraer información útil
+        else if (typeof output === 'object') {
+          texto = extraerInfoDeObjeto(output);
+          
+          // Si no se extrajo nada, buscar campos comunes
+          if (!texto) {
+            texto = output.text || output.message || output.response?.raw || '';
+          }
+        } else {
+          texto = String(output);
+        }
+        
+        // Si después de todo el procesamiento no hay texto útil, no mostrar nada
+        if (!texto || texto.trim() === '') {
+          return '<div class="conversation-output"><div class="conversation-line"><em style="color: var(--numia-text-light);">Información procesada correctamente</em></div></div>';
+        }
+        
+        // Formatear como conversación - dividir por líneas y formatear
+        const lineas = texto.split('\n');
+        let html = '<div class="conversation-output">';
+        
+        lineas.forEach(linea => {
+          linea = linea.trim();
+          if (!linea) {
+            html += '<div style="height: 0.5rem;"></div>'; // Espacio entre párrafos
             return;
           }
           
-          if (contents.length > 0) {
-            if (messageText) {
-              setTimeout(() => {
-                const interceptExpediente = debeInterceptarExpedienteIncompleto(messageText);
-                const textoConsola = interceptExpediente ? textoResumenConsolaExpedienteDesactualizado() : messageText;
-                mostrarResumen(textoConsola);
-                if (interceptExpediente) {
-                  setTimeout(() => mostrarPantallaExpedienteDesactualizado(), 1000);
-                  return;
-                }
-                // Extraer Scoring y detectar si recomienda videollamada
-                const scoring = extraerScoring(messageText);
-                const textoLower = messageText.toLowerCase();
-                
-                // Primero verificar si explícitamente dice NO o Presencial
-                const diceNoOPresencial = 
-                  textoLower.includes('sugerir videollamada: no') ||
-                  textoLower.includes('sugerir videollamada:no') ||
-                  textoLower.includes('**sugerir videollamada:** no') ||
-                  textoLower.includes('**sugerir videollamada:**no') ||
-                  (textoLower.includes('tipo de atención sugerida:') && textoLower.includes('presencial')) ||
-                  (textoLower.includes('tipo de atención sugerida') && textoLower.includes('presencial'));
-                
-                // Solo detectar videollamada si NO dice explícitamente NO o Presencial
-                let tieneVideollamadaTexto = false;
-                if (!diceNoOPresencial) {
-                  // Detectar múltiples variaciones del texto de sugerencia de videollamada
-                  tieneVideollamadaTexto = 
-                    // Variaciones con guión y SÃ
-                    textoLower.includes('- sugerir videollamada: si') ||
-                    textoLower.includes('- sugerir videollamada: sí') ||
-                    textoLower.includes('sugerir videollamada: si') ||
-                    textoLower.includes('sugerir videollamada: sí') ||
-                    // Variaciones con asteriscos (markdown) y SÃ
-                    textoLower.includes('**sugerir videollamada:** si') ||
-                    textoLower.includes('**sugerir videollamada:** sí') ||
-                    textoLower.includes('**sugerir videollamada:**si') ||
-                    textoLower.includes('**sugerir videollamada:**sí') ||
-                    // Detectar "Tipo de atención sugerida: Videollamada" (debe estar juntos)
-                    textoLower.includes('tipo de atención sugerida: videollamada') ||
-                    textoLower.includes('tipo de atención sugerida:videollamada');
-                }
-                
-                // Mostrar videollamada si el texto lo sugiere O si el Scoring > 640 (estricto, no >=)
-                const tieneVideollamada = tieneVideollamadaTexto || (scoring !== null && scoring > 640);
-                recomendacionVideollamada = tieneVideollamada;
-                console.log('Scoring extraído:', scoring, 'Dice NO/Presencial:', diceNoOPresencial, 'Videollamada por texto:', tieneVideollamadaTexto, 'Videollamada recomendada:', tieneVideollamada);
-                console.log('Texto completo para debugging:', messageText.substring(0, 500));
-                // Mostrar opciones de videollamada/presencial después del análisis
-                setTimeout(() => {
-                  if (esSucursalDniDobleAtencionEspecial()) {
-                    recomendacionVideollamada = true;
-                  }
-                  mostrarOpcionesAtencion();
-                }, 1000);
-              }, contents.length * 800 + 500);
-            }
-          } else {
-            if (messageText) {
-              const interceptExpediente = debeInterceptarExpedienteIncompleto(messageText);
-              const textoConsola = interceptExpediente ? textoResumenConsolaExpedienteDesactualizado() : messageText;
-              mostrarResumen(textoConsola);
-              if (interceptExpediente) {
-                setTimeout(() => mostrarPantallaExpedienteDesactualizado(), 1000);
+          // Detectar diferentes tipos de información
+          if (linea.startsWith('✅') || linea.startsWith('✓')) {
+            html += `<div class="conversation-line success"><i class="bi bi-check-circle-fill me-2"></i>${escapeHtml(linea.replace(/^[✅✓]\s*/, ''))}</div>`;
+          } else if (linea.startsWith('❌') || linea.startsWith('✗')) {
+            html += `<div class="conversation-line error"><i class="bi bi-x-circle-fill me-2"></i>${escapeHtml(linea.replace(/^[❌✗]\s*/, ''))}</div>`;
+          } else if (linea.match(/^\*\*.*\*\*:/)) {
+            // Títulos con markdown **texto:**
+            const titulo = linea.replace(/\*\*/g, '').replace(':', '');
+            html += `<div class="conversation-line title"><strong>${escapeHtml(titulo)}</strong></div>`;
+          } else if (linea.includes(':') && !linea.includes('{') && !linea.includes('}') && !linea.includes("'")) {
+            const [key, ...valueParts] = linea.split(':');
+            const value = valueParts.join(':').trim();
+            html += `<div class="conversation-line info"><strong>${escapeHtml(key.trim())}:</strong> <span>${escapeHtml(value)}</span></div>`;
+          } else if (linea.match(/^[A-Z][^:{}]*$/) && linea.length < 100 && !linea.includes("'")) {
+            html += `<div class="conversation-line title">${escapeHtml(linea)}</div>`;
+          } else if (!linea.includes('{') && !linea.includes('}') && !linea.includes("'id'") && !linea.includes("'firstName'")) {
+            html += `<div class="conversation-line">${escapeHtml(linea)}</div>`;
+          }
+        });
+        
+        html += '</div>';
+        return html;
+      }
+      
+      function formatearNombrePasoAmigable(toolName) {
+        if (!toolName || typeof toolName !== 'string') return 'Herramienta desconocida';
+        const t = toolName.trim();
+        if (!t) return 'Herramienta desconocida';
+        // Frases con espacios ya legibles: no usar /\b\w/g (en JS \w no incluye acentos y rompe palabras como "atención")
+        if (/\s/.test(t) && !/[a-z][A-Z]/.test(t)) {
+          return t;
+        }
+        return t
+          .replace(/([A-Z])/g, ' $1')
+          .replace(/^./, str => str.toUpperCase())
+          .trim()
+          .replace(/\b\w/g, l => l.toUpperCase());
+      }
+
+      function agregarPaso(content, index) {
+        try {
+          console.log(`Agregando paso ${index}:`, content);
+          
+          const stepItem = document.createElement('div');
+          stepItem.className = 'step-item processing';
+          stepItem.style.display = 'block';
+          stepItem.style.visibility = 'visible';
+          stepItem.style.opacity = '0';
+          stepItem.style.transition = 'opacity 0.5s ease-in';
+          stepItem.style.minHeight = '50px';
+          
+          // Obtener solo el nombre de la herramienta
+          const toolName = content.name || 
+                          content.tool_name || 
+                          content.tool_use?.name || 
+                          'Herramienta desconocida';
+          
+          const friendlyName = formatearNombrePasoAmigable(toolName);
+          
+          // Obtener el output - buscar en diferentes ubicaciones
+          let toolOutput = content.output || 
+                          content.tool_use?.output || 
+                          '';
+          
+          // Si el output es un objeto, intentar extraer el texto conversacional
+          if (toolOutput && typeof toolOutput === 'object') {
+            // Priorizar campos que contengan texto conversacional
+            toolOutput = toolOutput.text || 
+                        toolOutput.message || 
+                        toolOutput.response?.raw ||
+                        toolOutput.response ||
+                        '';
+            
+            // Si aún es un objeto y no tiene campos de texto, intentar extraer información útil
+            if (toolOutput && typeof toolOutput === 'object') {
+              // Para algunos outputs, puede ser un string dentro de un objeto
+              if (toolOutput.value) {
+                toolOutput = typeof toolOutput.value === 'string' ? toolOutput.value : JSON.stringify(toolOutput.value);
               } else {
-                // Extraer Scoring y detectar si recomienda videollamada
-                const scoring = extraerScoring(messageText);
-                const textoLower = messageText.toLowerCase();
-                // Detectar múltiples variaciones del texto de sugerencia de videollamada
-                const tieneVideollamadaTexto = 
-                  // Variaciones con guión
-                  textoLower.includes('- sugerir videollamada: si') ||
-                  textoLower.includes('- sugerir videollamada: sí') ||
-                  textoLower.includes('sugerir videollamada: si') ||
-                  textoLower.includes('sugerir videollamada: sí') ||
-                  // Variaciones con asteriscos (markdown)
-                  textoLower.includes('**sugerir videollamada:** si') ||
-                  textoLower.includes('**sugerir videollamada:** sí') ||
-                  textoLower.includes('**sugerir videollamada:**si') ||
-                  textoLower.includes('**sugerir videollamada:**sí') ||
-                  // Detectar "Tipo de atención sugerida: Videollamada"
-                  (textoLower.includes('tipo de atención sugerida') && textoLower.includes('videollamada')) ||
-                  (textoLower.includes('tipo de atención sugerida:') && textoLower.includes('videollamada'));
-                // Mostrar videollamada si el texto lo sugiere O si el Scoring > 640
-                const tieneVideollamada = tieneVideollamadaTexto || (scoring !== null && scoring > 640);
-                recomendacionVideollamada = tieneVideollamada;
-                console.log('Scoring extraído:', scoring, 'Videollamada recomendada:', tieneVideollamada);
-                // Mostrar opciones de videollamada/presencial después del análisis
-                setTimeout(() => {
-                  if (esSucursalDniDobleAtencionEspecial()) {
-                    recomendacionVideollamada = true;
-                  }
-                  mostrarOpcionesAtencion();
-                }, 1000);
+                // Intentar extraer solo campos útiles
+                const camposUtiles = [];
+                if (toolOutput.ok !== undefined) camposUtiles.push(`Estado: ${toolOutput.ok ? 'OK' : 'Error'}`);
+                if (toolOutput.score) camposUtiles.push(`Score: ${toolOutput.score}`);
+                if (toolOutput.dni) camposUtiles.push(`DNI: ${toolOutput.dni}`);
+                
+                toolOutput = camposUtiles.length > 0 ? camposUtiles.join('\n') : '';
               }
             }
           }
           
-        } catch (err) {
-          console.error('Error al llamar al agente:', err);
-          stepsContainer.innerHTML = `<div style="color: #ff8888;"><i class="bi bi-exclamation-triangle me-2"></i>Error: ${err.message}</div>`;
-        }
-      }
-      
-      // Mostrar opciones de atención (videollamada/presencial) después del análisis
-      function mostrarOpcionesAtencion() {
-        if (screenExpedientePendiente) screenExpedientePendiente.classList.remove('active');
-        screenOpciones.classList.add('active');
-        
-        // Cambiar el título y subtítulo
-        const screenOpcionesTitle = screenOpciones.querySelector('h2');
-        const screenOpcionesSubtitle = screenOpciones.querySelector('.subtitle');
-        if (screenOpcionesTitle) {
-          screenOpcionesTitle.textContent = 'Seleccione su preferencia';
-        }
-        if (screenOpcionesSubtitle) {
-          screenOpcionesSubtitle.textContent = 'Elija cómo desea ser atendido';
-        }
-        
-        opcionesGrid.innerHTML = '';
-        
-        // Opción Videollamada (solo se muestra si está recomendada - esta función solo se llama cuando lo está)
-        if (recomendacionVideollamada) {
-          const cardVideo = document.createElement('div');
-          cardVideo.className = 'opcion-card videollamada';
-          cardVideo.innerHTML = `
-            <div class="opcion-icon">
-              <i class="bi bi-camera-video"></i>
-            </div>
-            <div class="opcion-title">Videollamada</div>
-            <div class="opcion-badge">Menos espera</div>
-            <div class="opcion-desc">Atención inmediata desde donde estés</div>
-          `;
-          cardVideo.addEventListener('click', () => solicitarAtencion('videollamada'));
-          opcionesGrid.appendChild(cardVideo);
-        }
-        
-        // Opción Presencial (siempre disponible, menos recomendada si hay videollamada)
-        const cardPresencial = document.createElement('div');
-        cardPresencial.className = 'opcion-card presencial';
-        if (recomendacionVideollamada) {
-          cardPresencial.innerHTML = `
-            <div class="opcion-icon">
-              <i class="bi bi-geo-alt"></i>
-            </div>
-            <div class="opcion-title">Continuar presencial</div>
-            <div class="opcion-badge less-recommended">Opción menos recomendada</div>
-            <div class="opcion-desc">Atención en sucursal</div>
-          `;
-        } else {
-          cardPresencial.innerHTML = `
-            <div class="opcion-icon">
-              <i class="bi bi-geo-alt"></i>
-            </div>
-            <div class="opcion-title">Continuar presencial</div>
-            <div class="opcion-desc">Atención en sucursal</div>
-          `;
-        }
-        cardPresencial.addEventListener('click', () => solicitarAtencion('presencial'));
-        opcionesGrid.appendChild(cardPresencial);
-      }
-      
-      // Solicitar atención presencial directamente (cuando no hay recomendación de videollamada)
-      async function solicitarAtencionPresencialDirecta() {
-        await solicitarAtencion('presencial');
-      }
-      
-      // Solicitar atención Filavirtual: videollamada siempre cola 16223, presencial siempre 16221; sucursal 10750.
-      async function solicitarAtencion(tipo) {
-        try {
-          var queueId = tipo === 'presencial' ? FILA_VIRTUAL.QUEUE_PRESENCIAL : FILA_VIRTUAL.QUEUE_VIDEO;
-          var apiUrl =
-            FILA_VIRTUAL.BASE_URL +
-            '/queue/' +
-            encodeURIComponent(queueId) +
-            '/branch/' +
-            encodeURIComponent(FILA_VIRTUAL.BRANCH_ID) +
-            '/enqueue';
+          console.log(`Paso ${index}: ${friendlyName}`, `Output:`, toolOutput);
           
-          const datos = construirPayloadEnqueueTurno();
-          console.log('📤 Payload enviado a Filavirtual:', JSON.stringify(datos, null, 2));
-          
-          const response = await fetch(apiUrl, {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'x-api-token': FILA_VIRTUAL.API_TOKEN
-            },
-            body: JSON.stringify(datos)
-          });
-          
-          if (!response.ok) {
-            var errBody = await response.text().catch(function() { return ''; });
-            console.error('enqueue error body:', errBody);
-            throw new Error('Error en servidor (' + response.status + ')' + (errBody ? ': ' + errBody.slice(0, 200) : ''));
+          // Formatear el output de manera conversacional
+          let outputHtml = '';
+          if (toolOutput && typeof toolOutput === 'string' && toolOutput.trim()) {
+            outputHtml = `
+              <div class="step-output-content">
+                ${formatearOutputConversacional(toolOutput)}
+              </div>
+            `;
+          } else {
+            // Si no hay output o es muy complejo, mostrar solo el nombre de la herramienta ejecutada
+            outputHtml = '<div class="step-output-content"><em style="color: var(--numia-text-light);">Herramienta ejecutada correctamente</em></div>';
           }
           
-          const data = await response.json();
-          console.log('Respuesta de la API (raw):', JSON.stringify(data, null, 2));
-          console.log('Campos disponibles en data:', Object.keys(data || {}));
-          // Si hay un nivel de anidamiento (data.data), loguear también
-          if (data && data.data) console.log('Campos en data.data:', Object.keys(data.data));
-
-          // Mostrar pantalla de confirmación
-          mostrarPantallaConfirmacion(data, tipo);
-          
-        } catch (err) {
-          console.error('Error al solicitar atención:', err);
-          alert(`Error: ${err.message}`);
-        }
-      }
-      
-      // Mostrar pantalla de confirmación
-      function mostrarPantallaConfirmacion(data, tipo) {
-        screenOpciones.classList.remove('active');
-        if (screenExpedientePendiente) screenExpedientePendiente.classList.remove('active');
-        screenConfirmacion.classList.add('active');
-
-        // Ocultar todos los bloques opcionales por defecto
-        document.getElementById('tiempoEspera').style.display = 'none';
-        document.getElementById('videoLinkContainer').style.display = 'none';
-        document.getElementById('turnoNumeroBadge').classList.remove('visible');
-
-        // Función auxiliar: extrae un campo buscando en obj, obj.data y obj.jsonDetails
-        function extraerCampo(obj, ...keys) {
-          if (!obj) return undefined;
-          const niveles = [obj, obj.data, obj.jsonDetails].filter(Boolean);
-          for (const nivel of niveles) {
-            for (const k of keys) {
-              if (nivel[k] !== undefined && nivel[k] !== null && nivel[k] !== '' && nivel[k] !== '--') return nivel[k];
-            }
-          }
-          return undefined;
-        }
-
-        // Priorizar jsonDetails.turn (ej: "A1") sobre data.code (ej: "10750DCV3TNAL")
-        const rawTurnCode =
-          (data && data.jsonDetails && (data.jsonDetails.turn || data.jsonDetails.actualTurn)) ||
-          extraerCampo(data, 'turnCode', 'ticketCode', 'token', 'number', 'turno', 'numeroTurno', 'ticket', 'code', 'label');
-        // averageWaitingTime viene en data.jsonDetails, en MINUTOS (ej: 4.61)
-        const rawWaitTime = extraerCampo(data,
-          'averageWaitingTime', 'waitingTime', 'estimatedWaitingTime',
-          'avgWaitingTime', 'waitTime', 'tiempoEspera', 'tiempo'
-        );
-
-        console.log('Turno extraído:', rawTurnCode, '| Tiempo espera extraído (min):', rawWaitTime);
-
-        // Tiempo de espera (rawWaitTime viene en minutos decimales, ej: 4.61)
-        if (rawWaitTime !== undefined) {
-          const totalMin = parseFloat(rawWaitTime);
-          const minutos = Math.floor(totalMin);
-          const segundos = Math.round((totalMin - minutos) * 60);
-          document.getElementById('tiempoEspera').style.display = 'block';
-          document.getElementById('tiempoEsperaValor').textContent =
-            minutos > 0 ? `${minutos} min ${segundos} seg` : `${segundos} seg`;
-        }
-
-        if (tipo === 'videollamada' && data && data.videoCallUrl) {
-          const videoUrl = data.videoCallUrl + (data.videoCallUrl.includes('?') ? '&' : '?') + 'videocallUser=mobile';
-          document.getElementById('videoLinkContainer').style.display = 'block';
-          document.getElementById('btnVideoLink').href = videoUrl;
-        }
-      }
-      
-      // Mostrar pantalla de confirmación presencial (cuando no hay videollamada recomendada)
-      function mostrarPantallaConfirmacionPresencial() {
-        screenOpciones.classList.remove('active');
-        if (screenExpedientePendiente) screenExpedientePendiente.classList.remove('active');
-        screenConfirmacion.classList.add('active');
-        
-        // Ocultar elementos que no aplican
-        document.getElementById('tiempoEspera').style.display = 'none';
-        document.getElementById('videoLinkContainer').style.display = 'none';
-        
-        // Actualizar el mensaje de confirmación
-        const confirmacionTitle = screenConfirmacion.querySelector('h2');
-        const confirmacionMessage = screenConfirmacion.querySelector('.message');
-        
-        if (confirmacionTitle) {
-          confirmacionTitle.textContent = esCitaDniTurnoDirecto() ? 'Cita generada' : 'Tu turno fue asignado';
-        }
-        
-        if (confirmacionMessage) {
-          confirmacionMessage.innerHTML = `
-            Lo llamaremos. <strong>${formNombre} ${formApellido}</strong>, DNI: <strong>${formDni}</strong>
+          stepItem.innerHTML = `
+            <div class="step-header">
+              <div class="step-icon tool">
+                <i class="bi bi-gear"></i>
+              </div>
+              <div style="flex: 1;">
+                <div class="step-title">${escapeHtml(friendlyName)}</div>
+                <div class="step-duration">Paso ${index + 1}</div>
+              </div>
+            </div>
+            <div class="step-content">
+              ${outputHtml}
+            </div>
           `;
+          
+          // Asegurar que el contenedor esté visible y agregar el elemento
+          if (stepsContainer) {
+            stepsContainer.style.display = 'block';
+            stepsContainer.style.visibility = 'visible';
+            stepsContainer.style.opacity = '1';
+            stepsContainer.appendChild(stepItem);
+            
+            // Scroll automático al final del log
+            setTimeout(() => {
+              const logContent = document.querySelector('.log-content');
+              if (logContent) {
+                logContent.scrollTop = logContent.scrollHeight;
+              }
+            }, 100);
+            
+            // Animar la aparición
+            setTimeout(() => {
+              stepItem.style.opacity = '1';
+            }, 50);
+            
+            console.log(`Paso ${index} agregado al DOM: ${friendlyName}`);
+            
+            // Marcar como completado después de un breve delay
+            setTimeout(() => {
+              stepItem.classList.remove('processing');
+              stepItem.classList.add('completed');
+              const icon = stepItem.querySelector('.step-icon');
+              if (icon) {
+                icon.className = 'step-icon completed';
+                icon.innerHTML = '<i class="bi bi-check-circle"></i>';
+              }
+            }, 600);
+          } else {
+            console.error('stepsContainer no encontrado');
+          }
+        } catch (err) {
+          console.error('Error al agregar paso:', err, content);
         }
       }
-      
+    
       // Función para extraer el Scoring del mensaje
       function extraerScoring(texto) {
         if (!texto) return null;
         
         // Buscar patrones como "Scoring: 640", "Scoring:640", "scoring: 640", etc.
         const patrones = [
+          /Score:\s*\*{0,2}(\d+)\*{0,2}/i,
           /Scoring:\s*(\d+)/i,
           /Scoring\s*:\s*(\d+)/i,
           /score\s*:\s*(\d+)/i
@@ -2654,75 +1560,444 @@
         
         return null;
       }
-      
-      // Funciones auxiliares (copiadas de app-cliente.html)
-      function agregarPaso(content, index) {
+    
+      function mostrarResumen(message) {
         try {
-          const stepItem = document.createElement('div');
-          stepItem.className = 'step-item processing';
+          const messageText = typeof message === 'string' ? message : (message.message || JSON.stringify(message, null, 2));
+          if (messageText && !messageText.startsWith('No se recibió el texto de análisis')) {
+            ultimoDetalleExtraFields = messageText;
+          }
           
-          const toolName = content.name || content.tool_name || 'Herramienta desconocida';
-          const friendlyName = toolName
-            .replace(/([A-Z])/g, ' $1')
-            .replace(/^./, str => str.toUpperCase())
-            .trim()
-            .replace(/\b\w/g, l => l.toUpperCase());
+          // Extraer Scoring y detectar si recomienda videollamada
+          const scoring = extraerScoring(messageText);
+          const tieneVideollamadaTexto = (messageText.includes('**Tipo de atención sugerida**:') && 
+                                         (messageText.toLowerCase().includes('videollamada') || messageText.toLowerCase().includes('video llamada'))) ||
+                                         messageText.includes('- Sugerir videollamada: Si') || 
+                                         messageText.includes('- Sugerir videollamada:Si') ||
+                                         messageText.toLowerCase().includes('- sugerir videollamada: si');
+          // Mostrar videollamada si el texto lo sugiere O si el Scoring > 640
+          const tieneVideollamada = tieneVideollamadaTexto || (scoring !== null && scoring > 640);
+          console.log('Scoring extraído:', scoring, 'Videollamada recomendada:', tieneVideollamada);
           
-          stepItem.innerHTML = `
-            <div class="step-title">${escapeHtml(friendlyName)}</div>
-            <div class="step-output-content">
-              <em style="color: #ffffff;">Herramienta ejecutada correctamente</em>
-            </div>
-          `;
+          // Mostrar el resumen en el log
+          summaryContent.innerHTML = '';
+          const resumenTexto = document.createElement('div');
+          resumenTexto.textContent = messageText;
+          resumenTexto.style.marginBottom = '1rem';
+          summaryContent.appendChild(resumenTexto);
+          summarySection.style.display = 'block';
           
-          stepsContainer.appendChild(stepItem);
+          // Mostrar botones en la APP MÓVIL (no en el log)
+          mostrarOpcionesEnApp(tieneVideollamada);
           
+          // Scroll automático al final del log
           setTimeout(() => {
-            stepItem.classList.remove('processing');
-            stepItem.classList.add('completed');
-          }, 600);
-          
+            const logContent = document.querySelector('.log-content');
+            if (logContent) {
+              logContent.scrollTop = logContent.scrollHeight;
+            }
+          }, 100);
         } catch (err) {
-          console.error('Error al agregar paso:', err);
+          console.error('Error al mostrar resumen:', err);
         }
       }
       
-      function generarResumenFarmacia(mensajeOriginal) {
-        const tramite = etiquetaTramiteParaMensaje(opcionTramiteJourney || 'prestamos');
-
-        // Detectar canal sugerido del mensaje original para mantener coherencia
-        const txt = String(mensajeOriginal || '').toLowerCase();
-        const sugieraVideo =
-          txt.includes('sugerir videollamada: si') ||
-          txt.includes('sugerir videollamada: sí') ||
-          txt.includes('tipo de atención sugerida: videollamada');
-        const canalSugerido = sugieraVideo ? 'Videollamada' : 'Presencial';
-
-        // Extraer prioridad si existe en el mensaje original
-        const esPrioritario =
-          txt.includes('prioritaria') ||
-          txt.includes('prioridad más alta') ||
-          txt.includes('prioridad alta');
-
-        return (
-          `Cliente verificado en sistema Banamex.\n` +
-          `DNI: ${formDni}  |  Cliente: ${formNombre} ${formApellido}\n\n` +
-          `Trámite solicitado: ${tramite}\n\n` +
-          `Acciones realizadas:\n` +
-          `- Verificación de identidad: completada.\n` +
-          `- Consulta de historial de atenciones: sin alertas.\n` +
-          `- Revisión de disponibilidad de servicio: ok.\n` +
-          `- Perfil de atención asignado: ${esPrioritario ? 'Prioritaria' : 'Estándar'}.\n\n` +
-          `Canal de atención sugerido: ${canalSugerido}.`
-        );
+      function mostrarOpcionesEnApp(tieneVideollamada) {
+        // El botón ya está en el header, no necesitamos ocultarlo
+        
+        // Limpiar contenedor
+        opcionesAtencionContainer.innerHTML = '';
+        resultadoAtencionApp.style.display = 'none';
+        resultadoAtencionApp.innerHTML = '';
+        
+        // Botón Videollamada (siempre disponible, pero destacado si está recomendada)
+        const btnVideollamada = document.createElement('button');
+        btnVideollamada.className = 'btn w-100';
+        btnVideollamada.style.cssText = 'background-color: var(--numia-success); color: white; border: none; padding: 1rem 1.5rem; border-radius: 12px; font-weight: 600; margin-bottom: 0.75rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.25rem;';
+        if (tieneVideollamada) {
+          btnVideollamada.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-camera-video"></i><span>Videollamada</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">✓ Opción recomendada - Menos demora</span>';
+        } else {
+          btnVideollamada.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-camera-video"></i><span>Videollamada</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">Menos demora</span>';
+        }
+        btnVideollamada.addEventListener('click', async () => {
+          await solicitarAtencionApp('videollamada', btnVideollamada);
+        });
+        opcionesAtencionContainer.appendChild(btnVideollamada);
+        
+        // Botón Presencial (siempre disponible, más chico y con aclaración de demora)
+        const btnPresencial = document.createElement('button');
+        btnPresencial.className = 'btn';
+        btnPresencial.style.cssText = 'background-color: var(--numia-azul); color: white; border: none; padding: 0.75rem 1.25rem; border-radius: 10px; font-weight: 600; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 0.25rem; width: auto; margin: 0 auto; font-size: 0.9rem;';
+        btnPresencial.innerHTML = '<div style="display: flex; align-items: center; gap: 0.5rem;"><i class="bi bi-geo-alt"></i><span>Continuar presencial</span></div><span style="font-size: 0.7rem; opacity: 0.9; font-weight: 500;">Opción con más demora</span>';
+        btnPresencial.addEventListener('click', async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          console.log('Botón Presencial clickeado');
+          await solicitarAtencionPresencial();
+        });
+        opcionesAtencionContainer.appendChild(btnPresencial);
+        
+        // Contenedor para opciones presenciales (inicialmente oculto)
+        const opcionesPresencialContainer = document.createElement('div');
+        opcionesPresencialContainer.id = 'opcionesPresencialContainer';
+        opcionesPresencialContainer.style.display = 'none';
+        opcionesPresencialContainer.style.marginTop = '1rem';
+        opcionesAtencionContainer.appendChild(opcionesPresencialContainer);
+        
+        // Mostrar la sección
+        opcionesAtencionSection.style.display = 'block';
+        
+        // Scroll a la sección
+        setTimeout(() => {
+          opcionesAtencionSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
       }
-
-      function mostrarResumen(message) {
+      
+      function mostrarOpcionesPresencial() {
+        console.log('mostrarOpcionesPresencial llamada');
+        const opcionesPresencialContainer = document.getElementById('opcionesPresencialContainer');
+        console.log('Contenedor encontrado:', opcionesPresencialContainer);
+        if (!opcionesPresencialContainer) {
+          console.error('No se encontró el contenedor opcionesPresencialContainer');
+          return;
+        }
+        
+        // Si ya está visible, ocultarlo
+        if (opcionesPresencialContainer.style.display === 'block') {
+          opcionesPresencialContainer.style.display = 'none';
+          return;
+        }
+        
+        // Mostrar opciones
+        opcionesPresencialContainer.innerHTML = `
+          <h4 style="font-size: 1.1rem; font-weight: 600; color: var(--numia-text); margin-bottom: 1rem; text-align: center;">¿Cómo podemos ayudarlo?</h4>
+          <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+            <button class="btn-opcion-presencial btn w-100" data-opcion="prestamos" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+              <i class="bi bi-cash-coin me-2"></i>Préstamos
+            </button>
+            <button class="btn-opcion-presencial btn w-100" data-opcion="tarjetas" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+              <i class="bi bi-credit-card me-2"></i>Tarjetas
+            </button>
+            <button class="btn-opcion-presencial btn w-100" data-opcion="inversiones" style="background-color: white; color: var(--numia-azul); border: 2px solid var(--numia-azul); padding: 0.875rem 1.25rem; border-radius: 10px; font-weight: 600; text-align: left;">
+              <i class="bi bi-graph-up-arrow me-2"></i>Inversiones
+            </button>
+          </div>
+        `;
+        opcionesPresencialContainer.style.display = 'block';
+        console.log('Opciones mostradas, display:', opcionesPresencialContainer.style.display);
+        
+        // Agregar event listeners a los botones después de un pequeño delay para asegurar que el DOM esté actualizado
+        setTimeout(() => {
+          const botonesOpcion = opcionesPresencialContainer.querySelectorAll('.btn-opcion-presencial');
+          console.log('Botones encontrados:', botonesOpcion.length);
+          botonesOpcion.forEach(btn => {
+            btn.addEventListener('click', async (e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              const opcion = btn.getAttribute('data-opcion');
+              console.log('Opción seleccionada:', opcion);
+              await llamarAgenteConOpcion(opcion, btn);
+            });
+          });
+        }, 100);
+      }
+      
+      async function llamarAgenteConOpcion(opcion, btn) {
         try {
-          summaryContent.textContent = message || '';
-          summarySection.style.display = 'block';
+          btn.disabled = true;
+          if (opcion === 'inversiones') {
+            try {
+              window.open('app-inversion-bdb.html#cdt', '_blank');
+            } catch (eOpen) {}
+          }
+          btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Conectando...';
+          
+          // Ocultar opciones y mostrar loading
+          const opcionesPresencialContainer = document.getElementById('opcionesPresencialContainer');
+          if (opcionesPresencialContainer) {
+            opcionesPresencialContainer.style.display = 'none';
+          }
+          
+          // Mostrar log
+          const logContainer = document.querySelector('.log-container');
+          if (logContainer) {
+            logContainer.classList.add('visible');
+          }
+          
+          atencionSection.style.display = 'block';
+          atencionSection.classList.add('active');
+
+          summarySection.style.display = 'none';
+          summaryContent.innerHTML = '';
+
+          const pasosInicio = Date.now();
+          const delayPaso = 800;
+          const nPasos = PASOS_ANALISIS_UI.length;
+          const pasosAnimacionMs = nPasos * delayPaso + 500;
+
+          stepsContainer.innerHTML = '';
+          stepsContainer.style.display = 'block';
+
+          PASOS_ANALISIS_UI.forEach((paso, index) => {
+            setTimeout(() => {
+              agregarPaso({ name: paso.titulo, output: paso.detalle }, index);
+            }, index * delayPaso);
+          });
+
+          const dni = DNI_FIJO;
+          const mensaje = `Necesito atención sobre ${opcion}. DNI: ${dni}`;
+
+          let messageText = null;
+          try {
+            const response = await fetch(JOURNEY_API_URL, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                'x-api-key': JOURNEY_API_KEY,
+                'Origin': 'journeybuilder.numia.co'
+              },
+              body: JSON.stringify({
+                input_value: mensaje,
+                input_type: 'chat'
+              })
+            });
+
+            if (!response.ok) {
+              throw new Error(`Error en servidor (${response.status})`);
+            }
+
+            const data = await response.json();
+            console.log('Respuesta completa de la API:', JSON.stringify(data, null, 2));
+
+            if (data.outputs?.[0]?.outputs?.[0]) {
+              const innerOutput = data.outputs[0].outputs[0];
+              if (innerOutput.artifacts?.message) {
+                messageText = typeof innerOutput.artifacts.message === 'string'
+                  ? innerOutput.artifacts.message
+                  : innerOutput.artifacts.message.message || JSON.stringify(innerOutput.artifacts.message);
+              } else if (innerOutput.outputs?.message?.message) {
+                messageText = innerOutput.outputs.message.message;
+              } else if (innerOutput.results?.message?.text) {
+                messageText = innerOutput.results.message.text;
+              }
+            }
+          } catch (apiErr) {
+            const transcurrido = Date.now() - pasosInicio;
+            await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurrido)); });
+            throw apiErr;
+          }
+
+          const transcurridoFin = Date.now() - pasosInicio;
+          await new Promise(function(resolve) { setTimeout(resolve, Math.max(0, pasosAnimacionMs - transcurridoFin)); });
+
+          mostrarResumen(messageText || 'No se recibió el texto de análisis de la API.');
+          
         } catch (err) {
-          console.error('Error al mostrar resumen:', err);
+          console.error('Error al llamar al agente:', err);
+          stepsContainer.innerHTML = `<div class="alert alert-danger"><i class="bi bi-exclamation-triangle me-2"></i>Error: ${err.message}</div>`;
+        } finally {
+          btn.disabled = false;
+          const opcionTexto = opcion.charAt(0).toUpperCase() + opcion.slice(1);
+          const iconos = {
+            prestamos: 'bi-cash-coin',
+            tarjetas: 'bi-credit-card',
+            inversiones: 'bi-graph-up-arrow'
+          };
+          btn.innerHTML = `<i class="bi ${iconos[opcion]} me-2"></i>${opcionTexto}`;
+        }
+      }
+      
+      async function solicitarAtencionPresencial() {
+        try {
+          // Ocultar opciones y mostrar loading
+          opcionesAtencionSection.style.display = 'none';
+          resultadoAtencionApp.style.display = 'block';
+          resultadoAtencionApp.innerHTML = '<div class="alert alert-info"><i class="bi bi-hourglass-split me-2"></i>Procesando solicitud...</div>';
+          
+          const apiUrl = 'https://filavirtual2.debmedia.com/api/v1/queue/16221/branch/10750/enqueue';
+          const apiToken = 'XlOIHNe0yDnF6htBZWhdv3uFHxQKanqdVNQZC17w';
+          
+          const usuarioActual = getUsuarioActual();
+          const nombreActual = getNombreActual();
+          
+          const datos = buildDatosEnqueue(usuarioActual, nombreActual);
+          
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-token': apiToken
+            },
+            body: JSON.stringify(datos)
+          });
+          
+          if (!response.ok) {
+            throw new Error(`Error en servidor (${response.status})`);
+          }
+          
+          const data = await response.json();
+          console.log('Respuesta de la API presencial:', data);
+          
+          // Mostrar mensaje de confirmación
+          resultadoAtencionApp.innerHTML = `
+            <div class="alert alert-success mt-3">
+              <i class="bi bi-check-circle-fill me-2"></i>
+              <strong>Atención presencial solicitada correctamente</strong>
+              <p class="mb-0 mt-2">Lo llamaremos con su DNI: <strong>${usuarioActual.dni}</strong></p>
+            </div>
+          `;
+          
+        } catch (err) {
+          console.error('Error al solicitar atención presencial:', err);
+          resultadoAtencionApp.innerHTML = `<div class="alert alert-danger mt-3"><i class="bi bi-exclamation-triangle me-2"></i>Error: ${err.message}</div>`;
+        }
+      }
+      
+      async function solicitarAtencionApp(tipo, btn) {
+        try {
+          btn.disabled = true;
+          btn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Procesando...';
+          
+          resultadoAtencionApp.style.display = 'block';
+          resultadoAtencionApp.innerHTML = '<div class="alert alert-info"><i class="bi bi-hourglass-split me-2"></i>Procesando solicitud...</div>';
+          
+          const queueId = tipo === 'videollamada' ? '16223' : '16221';
+          const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${queueId}/branch/10750/enqueue`;
+          const apiToken = 'XlOIHNe0yDnF6htBZWhdv3uFHxQKanqdVNQZC17w';
+          
+          const usuarioActual = getUsuarioActual();
+          const nombreActual = getNombreActual();
+          
+          const datos = buildDatosEnqueue(usuarioActual, nombreActual);
+          
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-token': apiToken
+            },
+            body: JSON.stringify(datos)
+          });
+          
+          if (!response.ok) {
+            throw new Error(`Error en servidor (${response.status})`);
+          }
+          
+          const data = await response.json();
+          console.log('Respuesta de la API:', data);
+          
+          // Mostrar resultados
+          let resultadoHtml = '<div class="alert alert-success mt-3">';
+          
+          if (data.averageWaitingTime !== undefined) {
+            const minutos = Math.floor(data.averageWaitingTime / 60);
+            const segundos = data.averageWaitingTime % 60;
+            resultadoHtml += `<p class="mb-2"><strong>Tiempo de espera estimado:</strong> ${minutos} min ${segundos} seg</p>`;
+          }
+          
+          if (tipo === 'videollamada' && data.videoCallUrl) {
+            const videoUrl = data.videoCallUrl + (data.videoCallUrl.includes('?') ? '&' : '?') + 'videocallUser=mobile';
+            resultadoHtml += `
+              <a href="${videoUrl}" target="_blank" class="btn btn-success w-100 mt-2">
+                <i class="bi bi-camera-video me-2"></i>Iniciar Videollamada
+              </a>
+            `;
+          } else if (tipo === 'presencial') {
+            resultadoHtml += '<p class="mb-0"><i class="bi bi-check-circle me-2"></i>Atención presencial solicitada correctamente</p>';
+          }
+          
+          resultadoHtml += '</div>';
+          resultadoAtencionApp.innerHTML = resultadoHtml;
+          
+        } catch (err) {
+          console.error('Error al solicitar atención:', err);
+          resultadoAtencionApp.innerHTML = `<div class="alert alert-danger mt-3"><i class="bi bi-exclamation-triangle me-2"></i>Error: ${err.message}</div>`;
+        } finally {
+          btn.disabled = false;
+          if (tipo === 'videollamada') {
+            btn.innerHTML = '<i class="bi bi-camera-video"></i>Videollamada';
+          } else {
+            btn.innerHTML = '<i class="bi bi-geo-alt"></i>Presencial';
+          }
+        }
+      }
+      
+      async function solicitarAtencion(tipo, btn1, btn2, resultadoContainer) {
+        try {
+          // Deshabilitar ambos botones
+          btn1.disabled = true;
+          btn2.disabled = true;
+          btn1.style.opacity = '0.6';
+          btn2.style.opacity = '0.6';
+          
+          // Mostrar loading
+          resultadoContainer.style.display = 'block';
+          resultadoContainer.innerHTML = '<div style="color: #ffffff;"><i class="bi bi-hourglass-split me-2"></i>Procesando solicitud...</div>';
+          
+          // Determinar la URL según el tipo
+          const queueId = tipo === 'videollamada' ? '16223' : '16221';
+          const apiUrl = `https://filavirtual2.debmedia.com/api/v1/queue/${queueId}/branch/10750/enqueue`;
+          const apiToken = 'XlOIHNe0yDnF6htBZWhdv3uFHxQKanqdVNQZC17w';
+          
+          // Datos a enviar
+          const usuarioActual = getUsuarioActual();
+          const nombreActual = getNombreActual();
+          
+          const datos = buildDatosEnqueue(usuarioActual, nombreActual);
+          
+          // Llamar a la API
+          const response = await fetch(apiUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-token': apiToken
+            },
+            body: JSON.stringify(datos)
+          });
+          
+          if (!response.ok) {
+            throw new Error(`Error en servidor (${response.status})`);
+          }
+          
+          const data = await response.json();
+          console.log('Respuesta de la API:', data);
+          
+          // Mostrar resultados
+          let resultadoHtml = '<div style="margin-top: 1rem; padding: 1rem; background: #2d2d2d; border-radius: 4px; border-left: 3px solid #ffffff;">';
+          
+          // Mostrar tiempo de espera
+          if (data.averageWaitingTime !== undefined) {
+            const minutos = Math.floor(data.averageWaitingTime / 60);
+            const segundos = data.averageWaitingTime % 60;
+            resultadoHtml += `<div style="color: #ffffff; margin-bottom: 0.5rem;"><strong>Tiempo de espera estimado:</strong> ${minutos} min ${segundos} seg</div>`;
+          }
+          
+          // Si es videollamada, mostrar el enlace
+          if (tipo === 'videollamada' && data.videoCallUrl) {
+            const videoUrl = data.videoCallUrl + (data.videoCallUrl.includes('?') ? '&' : '?') + 'videocallUser=mobile';
+            resultadoHtml += `
+              <div style="margin-top: 1rem;">
+                <a href="${videoUrl}" target="_blank" style="display: inline-block; background-color: #00ff00; color: #000; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600;">
+                  <i class="bi bi-camera-video me-2"></i>Iniciar Videollamada
+                </a>
+              </div>
+            `;
+          } else if (tipo === 'presencial') {
+            resultadoHtml += `<div style="color: #ffffff; margin-top: 0.5rem;"><i class="bi bi-check-circle me-2"></i>Atención presencial solicitada correctamente</div>`;
+          }
+          
+          resultadoHtml += '</div>';
+          resultadoContainer.innerHTML = resultadoHtml;
+          
+        } catch (err) {
+          console.error('Error al solicitar atención:', err);
+          resultadoContainer.innerHTML = `<div style="color: #ff8888; margin-top: 1rem;"><i class="bi bi-exclamation-triangle me-2"></i>Error: ${err.message}</div>`;
+        } finally {
+          // Rehabilitar botones
+          btn1.disabled = false;
+          btn2.disabled = false;
+          btn1.style.opacity = '1';
+          btn2.style.opacity = '1';
         }
       }
       
@@ -2736,7 +2011,3 @@
   </script>
 </body>
 </html>
-
-
-
-
