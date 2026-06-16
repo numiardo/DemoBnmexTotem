@@ -845,6 +845,12 @@
         </div>
       </div>
       
+      <!-- Pantalla: Tiempo de espera en sucursal -->
+      <div id="screenEspera" style="display:none; width:100%; max-width:500px; text-align:center;"></div>
+
+      <!-- Pantalla: Sucursales cercanas -->
+      <div id="screenSucursales" style="display:none; width:100%; max-width:500px; overflow-y:auto;"></div>
+
       <!-- Pantalla 3: Confirmación -->
       <div class="screen-confirmacion" id="screenConfirmacion">
         <div class="success-icon">
@@ -1060,6 +1066,15 @@
       let ofertaPersonalizada = false;
       let ofertaAceptada = false;
 
+      // Estado de derivación a sucursal
+      let derivadoSucursal = false;
+
+      // Datos dummy de sucursales cercanas
+      const SUCURSALES_CERCANAS = [
+        { nombre: 'Sucursal Balderas',  espera: 5, direccion: 'Av. Juárez 76, Colonia Centro',                   minutosCoche: 6 },
+        { nombre: 'Sucursal Reforma',   espera: 0, direccion: 'Av. P.º de la Reforma 347, Cuauhtémoc',           minutosCoche: 9 }
+      ];
+
       function parsearSeccionesAPI(texto) {
         if (!texto) return {};
         const secciones = {};
@@ -1093,6 +1108,7 @@
         campos['Oferta personalizada'] = ofertaPersonalizada ? 'Sí' : 'No';
         campos['Detalle de oferta'] = ofertaPersonalizada ? TEXTO_OFERTA : 'N/A';
         campos['Oferta aceptada'] = ofertaPersonalizada ? (ofertaAceptada ? 'Sí' : 'No') : 'N/A';
+        campos['Derivado de sucursal con mayor tiempo de espera'] = derivadoSucursal ? 'Sí' : 'No';
 
         // Parsear secciones del texto de la API y agregarlas como campos separados
         const secciones = parsearSeccionesAPI(detalle);
@@ -1336,7 +1352,7 @@
           <div class="opcion-title">Préstamos</div>
         `;
         cardPrestamos.addEventListener('click', async () => {
-          await llamarAgenteConOpcionTotem('prestamos');
+          await mostrarPantallaEspera('prestamos');
         });
         opcionesGrid.appendChild(cardPrestamos);
         
@@ -1351,7 +1367,7 @@
           <div class="opcion-title">Tarjetas</div>
         `;
         cardTarjetas.addEventListener('click', async () => {
-          await llamarAgenteConOpcionTotem('tarjetas');
+          await mostrarPantallaEspera('tarjetas');
         });
         opcionesGrid.appendChild(cardTarjetas);
         
@@ -1366,7 +1382,7 @@
           <div class="opcion-title">Inversiones</div>
         `;
         cardInversiones.addEventListener('click', async () => {
-          await llamarAgenteConOpcionTotem('inversiones');
+          await mostrarPantallaEspera('inversiones');
         });
         opcionesGrid.appendChild(cardInversiones);
       }
@@ -1471,6 +1487,243 @@
         }, 1000);
       }
 
+      // ─── PANTALLA: TIEMPO DE ESPERA EN SUCURSAL ───────────────────────────────
+      async function mostrarPantallaEspera(opcion) {
+        screenOpciones.classList.remove('active');
+        derivadoSucursal = false;
+
+        const screenEspera = document.getElementById('screenEspera');
+        screenEspera.style.display = 'block';
+        screenEspera.innerHTML = `
+          <div style="padding:2rem 0;text-align:center;">
+            <div style="font-size:2rem;margin-bottom:0.5rem;color:#003746;">
+              <i class="bi bi-hourglass-split"></i>
+            </div>
+            <p style="color:#666;font-size:0.95rem;">Verificando disponibilidad...</p>
+          </div>`;
+
+        let tiempoEspera = 0;
+        try {
+          const resp = await fetch('https://filavirtual2.debmedia.com/api/queues/branchInfo/queue/10750', {
+            headers: { 'x-api-token': 'XlOIHNe0yDnF6htBZWhdv3uFHxQKanqdVNQZC17w' }
+          });
+          const data = await resp.json();
+          tiempoEspera = Math.round(parseFloat(data.monitorInfo?.avgWaitingTime || 0));
+        } catch (e) {
+          console.warn('No se pudo obtener tiempo de espera:', e);
+        }
+
+        screenEspera.innerHTML = `
+          <div style="padding:0.5rem 0;text-align:center;">
+            <div style="font-size:2.5rem;margin-bottom:0.5rem;">⏱️</div>
+            <h3 style="color:#003746;font-size:1.2rem;font-weight:700;margin-bottom:1rem;">
+              Tiempo de espera en sucursal
+            </h3>
+            <div style="
+              background:#EAF7F5;border:2px solid #003746;border-radius:14px;
+              padding:1.25rem 1rem;margin-bottom:1.5rem;text-align:left;
+            ">
+              <p style="color:#1A1A1A;font-size:0.97rem;line-height:1.65;margin:0;">
+                El tiempo de espera para atención es
+                <strong style="color:#003746;font-size:1.15rem;"> ${tiempoEspera} minutos</strong>.
+                Puedes continuar con tu turno y recibir atención en esta sucursal o asistir
+                a una sucursal con menor tiempo de espera.
+              </p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;">
+              <button id="btnContinuarEspera" style="
+                background:#003746;color:#fff;border:none;border-radius:12px;
+                padding:1rem;font-size:1rem;font-weight:700;cursor:pointer;width:100%;
+              ">
+                <i class="bi bi-check-circle me-2"></i>Continuar con turno en esta sede
+              </button>
+              <button id="btnMostrarSucursales" style="
+                background:#fff;color:#003746;border:2px solid #003746;border-radius:12px;
+                padding:0.9rem;font-size:0.97rem;font-weight:600;cursor:pointer;width:100%;
+              ">
+                <i class="bi bi-geo-alt me-2"></i>Mostrar sucursales cercanas
+              </button>
+            </div>
+          </div>`;
+
+        document.getElementById('btnContinuarEspera').addEventListener('click', () => {
+          screenEspera.style.display = 'none';
+          llamarAgenteConOpcionTotem(opcion);
+        });
+
+        document.getElementById('btnMostrarSucursales').addEventListener('click', () => {
+          screenEspera.style.display = 'none';
+          mostrarSucursalesCercanas(opcion);
+        });
+      }
+
+      // ─── PANTALLA: SUCURSALES CERCANAS ────────────────────────────────────────
+      function mostrarSucursalesCercanas(opcion) {
+        const screenSucursales = document.getElementById('screenSucursales');
+        screenSucursales.style.display = 'block';
+
+        const tarjetas = SUCURSALES_CERCANAS.map((s, i) => `
+          <div style="
+            background:#fff;border:2px solid #C2E3DF;border-radius:14px;
+            padding:1.1rem 1rem;margin-bottom:0.85rem;text-align:left;
+          ">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:0.4rem;">
+              <strong style="color:#003746;font-size:1rem;">${s.nombre}</strong>
+              <span style="
+                background:${s.espera === 0 ? '#00A651' : '#003746'};color:#fff;
+                font-size:0.7rem;font-weight:700;padding:0.2rem 0.6rem;border-radius:20px;
+              ">${s.espera === 0 ? 'Sin espera' : s.espera + ' min de espera'}</span>
+            </div>
+            <p style="color:#555;font-size:0.85rem;margin:0 0 0.75rem;">
+              <i class="bi bi-geo-alt-fill" style="color:#003746;"></i>
+              ${s.direccion}
+              <span style="color:#999;"> · ${s.minutosCoche} minutos en coche</span>
+            </p>
+            <div style="display:flex;gap:0.5rem;flex-wrap:wrap;">
+              <button data-wa="${i}" style="
+                background:#25D366;color:#fff;border:none;border-radius:8px;
+                padding:0.5rem 0.9rem;font-size:0.8rem;font-weight:600;cursor:pointer;
+              ">
+                <i class="bi bi-whatsapp me-1"></i>Enviar dirección a mi WhatsApp
+              </button>
+              <button data-sel="${i}" style="
+                background:#003746;color:#fff;border:none;border-radius:8px;
+                padding:0.5rem 0.9rem;font-size:0.8rem;font-weight:600;cursor:pointer;
+              ">
+                Sacar turno aquí
+              </button>
+            </div>
+          </div>`).join('');
+
+        screenSucursales.innerHTML = `
+          <div style="padding:0.25rem 0;">
+            <h3 style="color:#003746;font-size:1.15rem;font-weight:700;margin-bottom:0.25rem;text-align:center;">
+              Sucursales cercanas
+            </h3>
+            <p style="color:#666;font-size:0.88rem;text-align:center;margin-bottom:1rem;">
+              Selecciona una opción para continuar
+            </p>
+            ${tarjetas}
+            <button id="btnVolverEspera2" style="
+              background:transparent;color:#003746;border:none;
+              font-size:0.9rem;font-weight:600;cursor:pointer;padding:0.5rem;
+            ">
+              <i class="bi bi-arrow-left me-1"></i>Volver
+            </button>
+          </div>`;
+
+        // WhatsApp buttons
+        screenSucursales.querySelectorAll('[data-wa]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const s = SUCURSALES_CERCANAS[btn.dataset.wa];
+            mostrarModalWhatsapp(s.nombre);
+          });
+        });
+
+        // Seleccionar sucursal buttons
+        screenSucursales.querySelectorAll('[data-sel]').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const s = SUCURSALES_CERCANAS[btn.dataset.sel];
+            mostrarConfirmacionSucursal(s, opcion);
+          });
+        });
+
+        document.getElementById('btnVolverEspera2').addEventListener('click', () => {
+          screenSucursales.style.display = 'none';
+          mostrarPantallaEspera(opcion);
+        });
+      }
+
+      // ─── MODAL: WHATSAPP ──────────────────────────────────────────────────────
+      function mostrarModalWhatsapp(nombreSucursal) {
+        const overlay = document.createElement('div');
+        overlay.style.cssText = [
+          'position:fixed;top:0;left:0;right:0;bottom:0',
+          'background:rgba(0,55,70,0.65)',
+          'z-index:9998',
+          'display:flex;align-items:center;justify-content:center;padding:2rem'
+        ].join(';');
+        overlay.innerHTML = `
+          <div style="
+            background:#fff;border-radius:18px;padding:2rem 1.75rem;
+            max-width:380px;width:100%;text-align:center;
+            box-shadow:0 16px 48px rgba(0,0,0,0.3);animation:fadeInUp .25s ease;
+          ">
+            <div style="font-size:2.5rem;margin-bottom:0.75rem;">📲</div>
+            <h4 style="color:#003746;font-size:1.1rem;font-weight:700;margin-bottom:0.75rem;">
+              Dirección enviada
+            </h4>
+            <p style="color:#444;font-size:0.95rem;line-height:1.6;margin-bottom:1.5rem;">
+              Recibirás la dirección de <strong>${nombreSucursal}</strong>
+              vía WhatsApp en breve.
+            </p>
+            <button id="btnCerrarWA" style="
+              background:#003746;color:#fff;border:none;border-radius:10px;
+              padding:0.8rem 2rem;font-size:0.97rem;font-weight:700;cursor:pointer;
+            ">Aceptar</button>
+          </div>`;
+        document.body.appendChild(overlay);
+        overlay.querySelector('#btnCerrarWA').addEventListener('click', () => overlay.remove());
+      }
+
+      // ─── MODAL: CONFIRMACIÓN DE SUCURSAL ─────────────────────────────────────
+      function mostrarConfirmacionSucursal(sucursal, opcion) {
+        const tiempoTotal = sucursal.minutosCoche + sucursal.espera + 5;
+        const overlay = document.createElement('div');
+        overlay.style.cssText = [
+          'position:fixed;top:0;left:0;right:0;bottom:0',
+          'background:rgba(0,55,70,0.65)',
+          'z-index:9998',
+          'display:flex;align-items:center;justify-content:center;padding:2rem'
+        ].join(';');
+        overlay.innerHTML = `
+          <div style="
+            background:#fff;border-radius:18px;padding:2rem 1.75rem;
+            max-width:420px;width:100%;text-align:center;
+            box-shadow:0 16px 48px rgba(0,0,0,0.3);animation:fadeInUp .25s ease;
+          ">
+            <div style="font-size:2.5rem;margin-bottom:0.75rem;">📍</div>
+            <h4 style="color:#003746;font-size:1.1rem;font-weight:700;margin-bottom:0.5rem;">
+              Sacar turno para ${sucursal.nombre}
+            </h4>
+            <p style="color:#555;font-size:0.88rem;margin-bottom:1rem;">${sucursal.direccion}</p>
+            <div style="
+              background:#EAF7F5;border-radius:10px;padding:1rem;margin-bottom:1.5rem;
+            ">
+              <p style="color:#1A1A1A;font-size:0.95rem;margin:0;">
+                Tu turno será atendido en aproximadamente
+                <strong style="color:#003746;font-size:1.1rem;"> ${tiempoTotal} minutos</strong>
+                <br><span style="color:#888;font-size:0.82rem;">
+                  (${sucursal.minutosCoche} min en coche +
+                  ${sucursal.espera === 0 ? 'sin espera' : sucursal.espera + ' min de espera'} +
+                  5 min de tolerancia)
+                </span>
+              </p>
+            </div>
+            <div style="display:flex;gap:0.75rem;justify-content:center;">
+              <button id="btnConfirmarSucursal" style="
+                background:#003746;color:#fff;border:none;border-radius:10px;
+                padding:0.8rem 1.5rem;font-size:0.97rem;font-weight:700;cursor:pointer;
+              ">Confirmar turno</button>
+              <button id="btnCancelarSucursal" style="
+                background:#fff;color:#666;border:2px solid #ddd;border-radius:10px;
+                padding:0.8rem 1.25rem;font-size:0.95rem;font-weight:600;cursor:pointer;
+              ">Cancelar</button>
+            </div>
+          </div>`;
+        document.body.appendChild(overlay);
+
+        overlay.querySelector('#btnConfirmarSucursal').addEventListener('click', async () => {
+          derivadoSucursal = true;
+          overlay.remove();
+          document.getElementById('screenSucursales').style.display = 'none';
+          await llamarAgenteConOpcionTotem(opcion);
+        });
+
+        overlay.querySelector('#btnCancelarSucursal').addEventListener('click', () => overlay.remove());
+      }
+
+      // ─────────────────────────────────────────────────────────────────────────
       async function llamarAgenteConOpcionTotem(opcion) {
         try {
           // Ocultar pantalla de opciones y mostrar loading
