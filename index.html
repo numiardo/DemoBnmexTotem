@@ -967,6 +967,15 @@
           if (screenDniEl) {
             screenDniEl.style.display = 'none';
           }
+          const screenEsperaEl = document.getElementById('screenEspera');
+          if (screenEsperaEl) screenEsperaEl.style.display = 'none';
+          const screenSucursalesEl = document.getElementById('screenSucursales');
+          if (screenSucursalesEl) screenSucursalesEl.style.display = 'none';
+
+          // Resetear log y estado journey
+          if (logContainer) logContainer.classList.remove('visible');
+          journeyCallPromise = null;
+          journeyMessageText = null;
           
           // Restaurar el padding del contenedor
           const totemContent = document.querySelector('.totem-content');
@@ -1012,7 +1021,16 @@
           if (screenDniEl) {
             screenDniEl.style.display = 'none';
           }
-          
+          const screenEsperaEl2 = document.getElementById('screenEspera');
+          if (screenEsperaEl2) screenEsperaEl2.style.display = 'none';
+          const screenSucursalesEl2 = document.getElementById('screenSucursales');
+          if (screenSucursalesEl2) screenSucursalesEl2.style.display = 'none';
+
+          // Resetear log y estado journey
+          if (logContainer) logContainer.classList.remove('visible');
+          journeyCallPromise = null;
+          journeyMessageText = null;
+
           const totemContent = document.querySelector('.totem-content');
           if (totemContent) {
             totemContent.style.padding = '1.5rem 2rem';
@@ -1202,6 +1220,8 @@
       let analisisCompletado = false;
       let recomendacionVideollamada = false;
       let messageText = null;
+      let journeyCallPromise = null;
+      let journeyMessageText = null;
       
       // Elementos del DOM
       const screenDni = document.getElementById('screenDni');
@@ -1317,9 +1337,23 @@
       btnContinuar.addEventListener('click', () => {
         if (dniIngresado.length === 0) return;
 
-        // Resetear estado de oferta
+        // Resetear estado completo
         ofertaPersonalizada = false;
         ofertaAceptada = false;
+        derivadoSucursal = false;
+        journeyCallPromise = null;
+        journeyMessageText = null;
+
+        // Mostrar consola de análisis y arrancar Journey Builder en paralelo
+        if (logContainer) logContainer.classList.add('visible');
+        atencionSection.style.display = 'block';
+        atencionSection.classList.add('active');
+        summarySection.style.display = 'none';
+        stepsContainer.innerHTML = '';
+        PASOS_ANALISIS_UI.forEach((paso, index) => {
+          setTimeout(() => agregarPaso({ name: paso.titulo, output: paso.detalle }, index), index * 800);
+        });
+        journeyCallPromise = iniciarAnalisisJourney();
 
         // Modal de carga 2 segundos antes de continuar
         const overlayConsulta = document.createElement('div');
@@ -1581,9 +1615,10 @@
             </div>
           </div>`;
 
-        document.getElementById('btnContinuarEspera').addEventListener('click', () => {
+        document.getElementById('btnContinuarEspera').addEventListener('click', async () => {
           screenEspera.style.display = 'none';
-          llamarAgenteConOpcionTotem(opcion);
+          if (journeyCallPromise) await journeyCallPromise;
+          aplicarResumenYFlujoTotem(journeyMessageText);
         });
 
         document.getElementById('btnMostrarSucursales').addEventListener('click', () => {
@@ -1752,10 +1787,50 @@
           derivadoSucursal = true;
           overlay.remove();
           document.getElementById('screenSucursales').style.display = 'none';
-          await llamarAgenteConOpcionTotem(opcion);
+          if (journeyCallPromise) await journeyCallPromise;
+          await solicitarAtencionPresencialDirecta();
         });
 
         overlay.querySelector('#btnCancelarSucursal').addEventListener('click', () => overlay.remove());
+      }
+
+      // ─── LLAMADA TEMPRANA A JOURNEY BUILDER (desde entrada de DNI) ───────────
+      async function iniciarAnalisisJourney() {
+        journeyMessageText = null;
+        const mensaje = `Análisis de cliente. DNI: ${dniIngresado}`;
+        try {
+          const response = await fetch(JOURNEY_API_URL, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'x-api-key': JOURNEY_API_KEY,
+              'Origin': 'journeybuilder.numia.co'
+            },
+            body: JSON.stringify({ input_value: mensaje, input_type: 'chat' })
+          });
+          if (!response.ok) throw new Error(`Error en servidor (${response.status})`);
+          const data = await response.json();
+          let text = null;
+          if (data.outputs?.[0]?.outputs?.[0]) {
+            const inner = data.outputs[0].outputs[0];
+            if (inner.artifacts?.message) {
+              text = typeof inner.artifacts.message === 'string'
+                ? inner.artifacts.message
+                : inner.artifacts.message.message || JSON.stringify(inner.artifacts.message);
+            } else if (inner.outputs?.message?.message) {
+              text = inner.outputs.message.message;
+            } else if (inner.results?.message?.text) {
+              text = inner.results.message.text;
+            }
+          }
+          if (text) {
+            ultimoDetalleExtraFields = text;
+            journeyMessageText = text;
+            mostrarResumen(text);
+          }
+        } catch (err) {
+          console.error('Error en análisis Journey Builder:', err);
+        }
       }
 
       // ─────────────────────────────────────────────────────────────────────────
