@@ -1197,13 +1197,13 @@
         document.getElementById('btnAceptarOferta').addEventListener('click', () => {
           ofertaAceptada = true;
           overlay.remove();
-          mostrarPantallaOpciones();
+          // Los trámites ya están visibles; no es necesario regenerarlos
         });
 
         document.getElementById('btnRechazarOferta').addEventListener('click', () => {
           ofertaAceptada = false;
           overlay.remove();
-          mostrarPantallaOpciones();
+          // Los trámites ya están visibles; no es necesario regenerarlos
         });
       }
 
@@ -1333,7 +1333,7 @@
         console.log('Display actualizado. DNI:', dniIngresado, 'Texto en display:', dniDisplay.textContent);
       }
       
-      // Botón continuar - verificar oferta personalizada antes de mostrar opciones
+      // Botón continuar - flujo: carga interna → trámites → oferta (si aplica)
       btnContinuar.addEventListener('click', () => {
         if (dniIngresado.length === 0) return;
 
@@ -1344,7 +1344,7 @@
         journeyCallPromise = null;
         journeyMessageText = null;
 
-        // Mostrar consola de análisis y arrancar Journey Builder en paralelo
+        // 1. Mostrar consola de análisis y arrancar Journey Builder en paralelo
         if (logContainer) logContainer.classList.add('visible');
         atencionSection.style.display = 'block';
         atencionSection.classList.add('active');
@@ -1355,38 +1355,34 @@
         });
         journeyCallPromise = iniciarAnalisisJourney();
 
-        // Modal de carga 2 segundos antes de continuar
-        const overlayConsulta = document.createElement('div');
-        overlayConsulta.style.cssText = [
-          'position:fixed;top:0;left:0;right:0;bottom:0',
-          'background:rgba(0,55,70,0.72)',
-          'z-index:9999',
-          'display:flex;align-items:center;justify-content:center;padding:2rem'
-        ].join(';');
-        overlayConsulta.innerHTML = `
-          <div style="
-            background:#fff;border-radius:18px;padding:2rem 2.25rem;
-            max-width:340px;width:100%;text-align:center;
-            box-shadow:0 16px 48px rgba(0,0,0,0.3);animation:fadeInUp .25s ease;
-          ">
+        // 2. Dentro del tótem: ocultar DNI y mostrar pantalla de carga
+        screenDni.style.display = 'none';
+        screenOpciones.classList.add('active');
+        const opcionesTitle = screenOpciones.querySelector('h2');
+        const opcionesSubtitle = screenOpciones.querySelector('.subtitle');
+        if (opcionesTitle) opcionesTitle.textContent = '';
+        if (opcionesSubtitle) opcionesSubtitle.textContent = '';
+        opcionesGrid.innerHTML = `
+          <div style="text-align:center;padding:3rem 1rem;">
             <div style="
-              width:48px;height:48px;border:4px solid #C2E3DF;
+              width:56px;height:56px;border:5px solid #C2E3DF;
               border-top-color:#003746;border-radius:50%;
               animation:spin 0.8s linear infinite;
-              margin:0 auto 1.25rem;
+              margin:0 auto 1.5rem;
             "></div>
-            <p style="color:#003746;font-size:1rem;font-weight:600;margin:0;">
+            <p style="color:#003746;font-size:1.05rem;font-weight:600;margin:0 0 0.4rem;">
               Consultando información de cliente…
             </p>
+            <p style="color:#6b6b6b;font-size:0.85rem;margin:0;">
+              Por favor espere un momento
+            </p>
           </div>`;
-        document.body.appendChild(overlayConsulta);
 
+        // 3. Después de 2 segundos: mostrar los trámites y, si aplica, el modal de oferta
         setTimeout(() => {
-          overlayConsulta.remove();
+          mostrarPantallaOpciones();
           if (DNIS_CON_OFERTA.includes(dniIngresado)) {
-            mostrarModalOferta();
-          } else {
-            mostrarPantallaOpciones();
+            setTimeout(() => mostrarModalOferta(), 350);
           }
         }, 2000);
       });
