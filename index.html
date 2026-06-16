@@ -1147,17 +1147,17 @@
         const overlay = document.createElement('div');
         overlay.id = 'ofertaOverlay';
         overlay.style.cssText = [
-          'position:fixed;top:0;left:0;right:0;bottom:0',
+          'position:absolute;top:0;left:0;right:0;bottom:0',
           'background:rgba(0,55,70,0.75)',
-          'z-index:9998',
+          'z-index:100',
           'display:flex;align-items:center;justify-content:center',
-          'padding:2rem'
+          'padding:1.5rem'
         ].join(';');
 
         overlay.innerHTML = `
           <div style="
             background:#fff;border-radius:20px;padding:2.5rem 2rem;
-            max-width:460px;width:100%;
+            width:100%;
             box-shadow:0 20px 60px rgba(0,0,0,0.35);
             text-align:center;animation:fadeInUp .3s ease;
           ">
@@ -1180,7 +1180,9 @@
           </div>
         `;
 
-        document.body.appendChild(overlay);
+        // Inyectar dentro del totem (no en body) para que quede solo sobre el panel izquierdo
+        const totemContainer = document.querySelector('.totem-container');
+        (totemContainer || document.body).appendChild(overlay);
 
         document.getElementById('btnAceptarOferta').addEventListener('click', () => {
           ofertaAceptada = true;
